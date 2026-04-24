@@ -66,17 +66,22 @@ def login_view(request):
             messages.error(request, 'User not found.')
             return redirect('login')
         
+        # Ensure UserInfo exists (e.g. superuser created via CLI)
+        try:
+            user_info_obj = user_obj.user_info
+        except UserInfo.DoesNotExist:
+            user_info_obj = UserInfo.objects.create(user=user_obj, is_verified=True)
+
         # handling unverified users
-        if not user_obj.user_info.is_verified:
-            if user_obj.user_info.verification_code_expires_at is not None and user_obj.user_info.verification_code_expires_at > timezone.now():
+        if not user_info_obj.is_verified:
+            if user_info_obj.verification_code_expires_at is not None and user_info_obj.verification_code_expires_at > timezone.now():
                 messages.info(request, 'Please verify your account.')
                 return redirect('login')
             
-            user_info = UserInfo.objects.filter(user=user_obj).first()
-            user_info.verification_code = uuid.uuid4()
-            user_info.verification_code_created_at = timezone.now()
-            user_info.verification_code_expires_at = user_info.verification_code_created_at + timezone.timedelta(minutes=5)
-            user_info.save()
+            user_info_obj.verification_code = uuid.uuid4()
+            user_info_obj.verification_code_created_at = timezone.now()
+            user_info_obj.verification_code_expires_at = user_info_obj.verification_code_created_at + timezone.timedelta(minutes=5)
+            user_info_obj.save()
             
             protocol = request.scheme
             domain = request.get_host()
