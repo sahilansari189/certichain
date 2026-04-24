@@ -4,6 +4,49 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [1.1.0] — 2026-04-25
+
+### 📝 Quiz & Examination System
+
+**Added**
+- MCQ quiz questions for every module (3–4 questions each with 4 options)
+- Quizzes attached to the **last lesson** of each module
+- Single **Final Examination** module per course (5 min timer)
+- Final exam contains ALL module questions + dedicated final questions
+- **Course 1** — 16 module quiz questions + 10 final exam questions = 26 total
+- **Course 2** — 19 module quiz questions + 12 final exam questions = 31 total
+
+### 🚫 Redis & Celery Removal
+
+**Removed**
+- Celery task queue — all email tasks now run synchronously
+- Redis message broker dependency
+- Removed from requirements: `celery`, `redis`, `amqp`, `billiard`, `click*`, `kombu`, `vine`, `numpy`, `prompt_toolkit`, `wcwidth`, `colorama`, `packaging`
+- Removed `skillnetwork/celery.py` configuration
+- Removed `CELERY_*` settings from `settings.py`
+- Cleaned `skillnetwork/__init__.py` (removed celery app import)
+
+**Changed**
+- `account/tasks.py` — Plain functions (removed `@shared_task`, `self.retry`)
+- `credential/tasks.py` — Plain functions
+- `contact/tasks.py` — Plain functions
+- All `.delay()` calls replaced with direct function calls `()`
+
+### 🔐 Login Fix
+
+**Fixed**
+- `account/views.py` — Auto-creates `UserInfo` for users without one (e.g. superuser via CLI)
+- Prevents `RelatedObjectDoesNotExist` crash on login
+
+### 🧹 PIL/Pillow Removal
+
+**Removed**
+- Deleted `generate_qr_code_base64_with_img()` from `utilities/utils.py`
+- Removed `pillow` from requirements.txt
+- No PIL imports remain in the codebase
+
+---
+
 ## [1.0.0] — 2026-04-25
 
 ### 🔗 NFT Blockchain Certification Integration
@@ -33,22 +76,22 @@ All notable changes to this project are documented in this file.
 ### 📚 Course Content
 
 **Added**
-- Management command `seed_courses` to populate demo courses
-- **Course 1: Code Blocks — CS Fundamentals** (6 modules, 16 lessons)
-  - Excel Fundamentals
-  - Command Line Essentials
-  - Data Structures & Algorithms
-  - AI & Machine Learning Basics
-  - Blockchain Fundamentals
-  - Final Examination
-- **Course 2: Blockchain Mastery — From Zero to Web3** (7 modules, 19 lessons)
-  - Introduction to Blockchain
-  - Cryptography & Security
-  - Ethereum & EVM
-  - Solidity Programming
-  - DeFi & NFTs
-  - Building dApps
-  - Final Examination
+- Management command `seed_courses` to populate demo courses with quizzes
+- **Course 1: Code Blocks — CS Fundamentals** (6 modules, 16 lessons, 26 quiz questions)
+  - Excel Fundamentals (3 quiz questions)
+  - Command Line Essentials (3 quiz questions)
+  - Data Structures & Algorithms (4 quiz questions)
+  - AI & Machine Learning Basics (3 quiz questions)
+  - Blockchain Fundamentals (3 quiz questions)
+  - Final Examination — 5 min, 10 comprehensive questions + all module questions
+- **Course 2: Blockchain Mastery — From Zero to Web3** (7 modules, 19 lessons, 31 quiz questions)
+  - Introduction to Blockchain (3 quiz questions)
+  - Cryptography & Security (3 quiz questions)
+  - Ethereum & EVM (3 quiz questions)
+  - Solidity Programming (4 quiz questions)
+  - DeFi & NFTs (3 quiz questions)
+  - Building dApps (3 quiz questions)
+  - Final Examination — 5 min, 12 comprehensive questions + all module questions
 
 ---
 
@@ -75,55 +118,13 @@ All notable changes to this project are documented in this file.
 **Fixed**
 - Removed top-level `import pandas` from `exam/models.py` (unused import causing numpy crash)
 - Moved `import pandas` to lazy import inside `account/models.py` → `create_allowed_emails()`
-- Removed `generate_qr_code_base64_with_img()` function (used PIL, was never called)
-- Removed all PIL/Pillow usage from the codebase
 
 **Removed from requirements.txt**
 - `mysqlclient==2.2.7` — Not needed (using SQLite)
-- `pillow==11.3.0` — Not needed (PIL removed from codebase)
-- `pandas==2.3.2` — Now lazy-imported only when needed
-- `numpy==2.3.3` — Only needed by pandas, not required at install time
 
 **Changed**
 - Database config simplified to SQLite only (removed MySQL conditional)
 - `account/models.py` — `is_verified` default changed to `True`
-
----
-
-### 📁 Files Created
-
-| File | Purpose |
-|------|---------|
-| `templates/credential/certificate/nft_mint.html` | NFT certificate issuance page |
-| `templates/credential/certificate/nft_verify.html` | NFT certificate verification page |
-| `static/js/abi.json` | Smart contract ABI |
-| `static/images/certichain_logo.png` | CertiChain logo |
-| `course/management/commands/seed_courses.py` | Course seeding command |
-| `CHANGELOG.md` | This file |
-
-### 📁 Files Modified
-
-| File | Changes |
-|------|---------|
-| `.env` | Added EmailJS and ImgBB keys |
-| `skillnetwork/settings.py` | Added NFT config vars, simplified DB to SQLite |
-| `credential/views.py` | Added `nft_mint` and `nft_verify` views |
-| `credential/urls.py` | Added NFT routes |
-| `requirements.txt` | Removed mysqlclient, pillow, pandas, numpy |
-| `utilities/utils.py` | Removed PIL-dependent function |
-| `exam/models.py` | Removed unused pandas import |
-| `account/models.py` | Lazy pandas import, `is_verified=True` |
-| `templates/components/header.html` | CertiChain logo + Blockchain Verify link |
-| `templates/components/footer.html` | CertiChain branding |
-| `templates/base/base.html` | CertiChain title |
-| `templates/learning/course_dashboard_progress.html` | NFT certificate section |
-| `templates/credential/certificate/certificates.html` | Blockchain links |
-| `templates/credential/certificate/certificate_page.html` | Verify button |
-| `templates/auth/login.html` | CertiChain branding |
-| `templates/auth/register.html` | CertiChain branding |
-| `templates/auth/forgot_password.html` | CertiChain branding |
-| `templates/base/home.html` | CertiChain branding |
-| `README.md` | Full rewrite for CertiChain |
 
 ---
 

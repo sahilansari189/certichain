@@ -135,17 +135,23 @@ class Command(BaseCommand):
             ], bc_quiz),
             ('Final Examination', 'Comprehensive exam covering all modules.', [], final_exam_q),
         ]
+        all_questions = []
         for i, (title, desc, lessons, quiz) in enumerate(modules, 1):
             is_exam = (title == 'Final Examination')
-            m = Module.objects.create(course=course, title=title, description=desc, order=i, is_final_exam=is_exam, final_exam_time=60 if is_exam else 0)
+            m = Module.objects.create(course=course, title=title, description=desc, order=i, is_final_exam=is_exam, final_exam_time=5 if is_exam else 0)
             questions = [self._create_question(q, opts) for q, opts in quiz]
+            if not is_exam:
+                all_questions.extend(questions)
             for j, (lt, lc) in enumerate(lessons, 1):
                 lesson = Lesson.objects.create(module=m, title=lt, content=lc, order=j)
-                lesson.questions.set(questions)
-            if is_exam and questions:
-                # For final exam, create a single lesson that holds all questions
+                # Attach quiz only to the last lesson of the module
+                if j == len(lessons):
+                    lesson.questions.set(questions)
+            if is_exam:
+                # Final exam gets ALL questions from every module
+                all_final = all_questions + questions
                 exam_lesson = Lesson.objects.create(module=m, title='Final Exam — All Modules', content='Answer all questions below. You need 70% to pass and earn your certificate.', order=1)
-                exam_lesson.questions.set(questions)
+                exam_lesson.questions.set(all_final)
 
     # ─── Blockchain Mastery modules ───
     def _seed_blockchain(self, course):
@@ -230,13 +236,18 @@ class Command(BaseCommand):
             ], dapp_quiz),
             ('Final Examination', 'Comprehensive exam covering all blockchain modules.', [], final_exam_q),
         ]
+        all_questions = []
         for i, (title, desc, lessons, quiz) in enumerate(modules, 1):
             is_exam = (title == 'Final Examination')
-            m = Module.objects.create(course=course, title=title, description=desc, order=i, is_final_exam=is_exam, final_exam_time=90 if is_exam else 0)
+            m = Module.objects.create(course=course, title=title, description=desc, order=i, is_final_exam=is_exam, final_exam_time=5 if is_exam else 0)
             questions = [self._create_question(q, opts) for q, opts in quiz]
+            if not is_exam:
+                all_questions.extend(questions)
             for j, (lt, lc) in enumerate(lessons, 1):
                 lesson = Lesson.objects.create(module=m, title=lt, content=lc, order=j)
-                lesson.questions.set(questions)
-            if is_exam and questions:
+                if j == len(lessons):
+                    lesson.questions.set(questions)
+            if is_exam:
+                all_final = all_questions + questions
                 exam_lesson = Lesson.objects.create(module=m, title='Final Exam — Blockchain Mastery', content='Answer all questions below. You need 70% to pass and earn your blockchain NFT certificate.', order=1)
-                exam_lesson.questions.set(questions)
+                exam_lesson.questions.set(all_final)
