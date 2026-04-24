@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 from django.utils import timezone
 
-ADMIN_EMAIL = 'sahilsa7807887@gmail.com'
+ADMIN_EMAIL = 'sa760887@gmail.com'
 GOOGLE_FORM_URL = 'https://forms.gle/2iEQREU8JLkZJZS46'
 
 def send_certificate_email(protocol, domain, email, course_title, certificate_uid):
