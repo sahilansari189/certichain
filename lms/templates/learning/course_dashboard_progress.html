@@ -622,7 +622,7 @@
       <!-- Certificate Section -->
       <div class="certificate-section">
         <h3 class="certificate-title">Certificate status</h3>
-        <div class="cert-button-div" style="display: none;">
+        <div class="cert-button-div">
           <button class="certificate-button" onclick="requestCertificate()">Request Certificate</button>
           <p id="cert-cooldown-msg" style="display:none; color: #8d8d8d; font-size: 0.85rem; margin-top: 8px;"></p>
         </div>
@@ -763,25 +763,16 @@
   // Update certificate button visibility
   function updateCertificationStatus(weightedGrade) {
     const buttonDiv = document.querySelector(".cert-button-div");
-    const nftActions = document.querySelector(".nft-cert-actions");
     
+    // Show button if grade >= 70 or course is completed
     if (weightedGrade >= 70) {
       buttonDiv.style.display = 'block';
-      if (nftActions) nftActions.style.display = 'block';
       checkCertificateStatus();
     } else {
       buttonDiv.style.display = 'none';
-      if (nftActions) nftActions.style.display = 'none';
     }
   }
 
-  // Open NFT Mint page with pre-filled student info
-  function openNftMint() {
-    const params = new URLSearchParams({
-      student_name: '{{ request.user.get_full_name|escapejs }}',
-      student_email: '{{ request.user.email|escapejs }}',
-      course_title: '{{ course.title|escapejs }}'
-    });
   // Certificate rate limiting
   let certRequestCount = 0;
   let certCooldownActive = false;
