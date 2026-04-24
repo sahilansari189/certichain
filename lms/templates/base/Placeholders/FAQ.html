@@ -1,0 +1,181 @@
+{% extends "base/base.html" %} {% block content %}
+{% include 'components/toast.html' with messages=messages %}
+
+<style>
+  :root {
+    --cds-interactive-01: #003366;
+    --cds-interactive-01-hover: lavender;
+    --cds-ui-01: #f4f4f4;
+    --cds-ui-02: #ffffff;
+    --cds-text-01: #161616;
+    --cds-text-02: #525252;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--cds-ui-02);
+    color: var(--cds-text-01);
+  }
+
+  .container-fixed {
+    max-width: 1312px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Hero Section */
+  .faq-hero {
+    background-color: var(--cds-interactive-01);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .faq-title {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .faq-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  /* FAQ Content */
+  .faq-content {
+    padding: 64px 0;
+    background-color: var(--cds-ui-01);
+  }
+
+  .faq-category {
+    margin-bottom: 48px;
+  }
+
+  .category-title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: var(--cds-interactive-01);
+  }
+
+  .faq-item {
+    background: white;
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    /* No border radius */
+  }
+
+  .faq-question {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--cds-text-01);
+  }
+
+  .faq-answer {
+    font-size: 16px;
+    color: var(--cds-text-02);
+    line-height: 1.6;
+  }
+
+  .contact-section {
+    padding: 64px 0;
+    text-align: center;
+    background-color: var(--cds-ui-02);
+  }
+
+  .contact-title {
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .btn-contact {
+    background-color: var(--cds-interactive-01);
+    color: white;
+    padding: 14px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    margin-top: 24px;
+    transition: background 0.2s;
+  }
+
+  .btn-contact:hover {
+    background-color: var(--cds-interactive-01-hover);
+    color: black;
+  }
+</style>
+
+<div class="faq-hero">
+  <div class="container-fixed">
+    <h1 class="faq-title">Frequently Asked Questions</h1>
+    <p class="faq-subtitle">Find answers to common questions about ASPL SkillVerse</p>
+  </div>
+</div>
+
+<div class="faq-content">
+  <div class="container-fixed">
+    
+    <!-- General Questions -->
+    <div class="faq-category">
+      <h2 class="category-title">General</h2>
+      <div class="faq-item">
+        <h3 class="faq-question">What is ASPL SkillVerse?</h3>
+        <p class="faq-answer">ASPL SkillVerse is a comprehensive learning platform designed to provide students, professionals, and organizations with world-class technology education and career development tools.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Is the platform free to use?</h3>
+        <p class="faq-answer">Many of our courses and resources are available for free. We also offer premium certifications and enterprise plans for organizations.</p>
+      </div>
+    </div>
+
+    <!-- Courses & Certifications -->
+    <div class="faq-category">
+      <h2 class="category-title">Courses & Certifications</h2>
+      <div class="faq-item">
+        <h3 class="faq-question">How do I earn a digital credential?</h3>
+        <p class="faq-answer">You earn a digital credential by successfully completing a course and passing the final assessment. Once earned, you can download your certificate and share your badge on LinkedIn.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Are the courses self-paced?</h3>
+        <p class="faq-answer">Yes, most of our courses are self-paced, allowing you to learn at your own convenience and schedule.</p>
+      </div>
+    </div>
+
+    <!-- Account & Support -->
+    <div class="faq-category">
+      <h2 class="category-title">Account & Support</h2>
+      <div class="faq-item">
+        <h3 class="faq-question">How do I reset my password?</h3>
+        <p class="faq-answer">You can reset your password by clicking on the "Forgot Password" link on the login page and following the instructions sent to your email.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Can I access courses on mobile?</h3>
+        <p class="faq-answer">Yes, our platform is fully responsive and can be accessed on smartphones and tablets.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="contact-section">
+  <div class="container-fixed">
+    <h2 class="contact-title">Still have questions?</h2>
+    <p>We're here to help. Reach out to our support team.</p>
+    <a href="#" class="btn-contact">Contact Us</a>
+  </div>
+</div>
+
+{% endblock content %}

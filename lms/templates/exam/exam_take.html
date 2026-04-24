@@ -1,0 +1,319 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% include 'components/toast.html' %}
+{% load question_navigation %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+    
+    .font-ibm {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+    
+    .timer-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: conic-gradient(#052FAD 0deg, #e5e7eb 0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .timer-inner {
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .timer-warning {
+        background: conic-gradient(#f59e0b 0deg, #e5e7eb 0deg) !important;
+    }
+    
+    .timer-danger {
+        background: conic-gradient(#dc2626 0deg, #e5e7eb 0deg) !important;
+    }
+    
+    .question-option {
+        transition: all 0.3s ease;
+    }
+    
+    .question-option:hover {
+        background-color: #f8fafc;
+        border-color: #052FAD;
+    }
+    
+    .question-option.selected {
+        background-color: #eff6ff;
+        border-color: #052FAD;
+        border-width: 2px;
+    }
+    
+    .sidebar-question {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-question.attempted {
+        background-color: #10b981;
+        color: white;
+    }
+    
+    .sidebar-question.current {
+        border: 3px solid #052FAD;
+        color: white;
+    }
+    
+    .sidebar-question.unattempted {
+        background-color: #e5e7eb;
+        color: #6b7280;
+    }
+</style>
+
+<section class="min-h-screen bg-gray-50 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Exam Interface -->
+        <div class="grid lg:grid-cols-4 gap-8">
+                
+                <!-- Main Exam Area -->
+                <div class="lg:col-span-3">
+                    
+                    <!-- Timer -->
+                    <div class="bg-white shadow-lg p-6 mb-6 text-center">
+                        <div class="timer-circle mx-auto mb-4" id="timerCircle">
+                            <div class="timer-inner">
+                                <span id="timerDisplay" class="text-2xl font-bold font-ibm text-[#052FAD]">{{ time_left }}</span>
+                                <span class="text-xs text-gray-500 font-ibm">remaining</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 font-light font-ibm">Time Remaining</p>
+                    </div>
+                    
+                    <!-- Question Card -->
+                    <form method='post' action='{% url "quesiton_attempt" %}?q={% if questions.has_next %}{{ questions.next_page_number }}{% else %}{{questions.number}}{% endif %}' class="bg-white shadow-lg p-8">
+                        {% csrf_token %}
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-medium font-ibm text-gray-900">Question <span id="currentQuestionNum">{{request.GET.q|default:'1'}}</span> of {{ q_len }}</h3>
+                            <button type='button' onclick='clearResponse("{{ questions.0.uid }}")' class="text-[#052FAD] hover:text-cyan-500 font-medium font-ibm transition-colors duration-300">
+                                <i class="fas fa-eraser mr-2"></i>Clear Response
+                            </button>
+                        </div>
+                        {% for question in questions %}
+                        <!-- Question Text -->
+                        <div class="mb-8">
+                            <p class="text-xl text-gray-800 font-light font-ibm leading-relaxed" id="questionText">
+                                {{ question.question }}
+                            </p>
+                        </div>
+                        
+                        <input type='hidden' name='question_uid' value='{{ question.uid }}'>
+                        <input type='hidden' name='attempt_uid' value='{{ attempt.uid }}'>
+                        <input type='hidden' name='exam_uid' value='{{ exam.uid }}'>
+                        <!-- Options -->
+                        <div class="space-y-4 mb-8">
+                            {% for option in question.options.all %}
+                            <label class="question-option block p-4 border-2 border-gray-200 cursor-pointer">
+                                <div class="flex items-center">
+                                    <input type="radio" name="option_uid" {% if attempt|get_selected_option:question == option.uid %}checked{% endif %} value="{{ option.uid }}" class="mr-4 text-[#052FAD] focus:ring-[#052FAD]">
+                                    <span class="text-lg font-light font-ibm">{{ option.option }}</span>
+                                </div>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                        <!-- Navigation -->
+                        <div class="flex justify-between">
+                            {% if questions.has_previous %}
+                            <button type='button' onclick="submitPost()"
+                                class="bg-gray-300 text-gray-700 px-8 py-3 font-medium font-ibm hover:bg-gray-400 transition-all duration-300">
+                                <i class="fas fa-chevron-left mr-2"></i>Previous
+                            </button>
+                            {% endif %}
+                            {% if questions.has_next %}
+                            <button id="nextBtn" type='submit' class="bg-[#052FAD] text-white px-8 py-3 font-medium font-ibm hover:bg-[#001F5C] transition-all duration-300">
+                                Save and Next<i class="fas fa-chevron-right ml-2"></i>
+                            </button>
+                            {% else %}
+                            <button id="nextBtn" class="bg-[#052FAD] text-white px-8 py-3 font-medium font-ibm hover:bg-[#001F5C] transition-all duration-300">
+                                Save<i class="fas fa-chevron-right ml-2"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                {% if questions.has_previous %}
+                    <form id="PreviousQuesitonForm" method="POST" action="{% url 'quesiton_attempt' %}?q={{ questions.previous_page_number }}" style="display:none;">
+                        {% csrf_token %}
+                        <input type='hidden' name='attempt_uid' value='{{ attempt.uid }}'>
+                        <input type='hidden' name='exam_uid' value='{{ exam.uid }}'>
+                    </form>
+                    <script>
+                    function submitPost() {
+                        document.getElementById("PreviousQuesitonForm").submit();
+                    }
+                    </script>
+                {% endif %}
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white shadow-lg p-6 sticky top-[80px]">
+                        <h3 class="text-lg font-medium font-ibm text-gray-900 mb-4">Questions</h3>
+                        
+                        <!-- Question Grid -->
+                        <div class="grid grid-cols-5 gap-2 mb-6">
+                            {% for q in exam.questions.all %}
+                                    {% if  attempt|question_answered:q %}
+                                    <a href='?q={{ forloop.counter }}' class="sidebar-question attempted {% if request.GET.q|default:'' == forloop.counter|stringformat:"s" %} current {% endif %}">{{ forloop.counter }} </a>
+                                    {% else %}
+                                    <a href='?q={{ forloop.counter }}' class="sidebar-question unattempted {% if request.GET.q|default:'' == forloop.counter|stringformat:"s" %} current {% endif %}">{{ forloop.counter }} </a>
+                                    {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Legend -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-[#052FAD] rounded-full mr-3"></div>
+                                <span class="text-sm font-light font-ibm text-gray-600">Current</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                                <span class="text-sm font-light font-ibm text-gray-600">Attempted</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-gray-300 rounded-full mr-3"></div>
+                                <span class="text-sm font-light font-ibm text-gray-600">Unattempted</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button onclick='confirmSubmition()' class="w-full bg-gradient-to-r from-[#052FAD] to-[#001F5C] text-white py-3 font-medium font-ibm hover:from-[#001F5C] hover:to-[#052FAD] transition-all duration-300">
+                            <i class="fas fa-paper-plane mr-2"></i>Submit Exam
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentQuestion = 1;
+    let totalQuestions = 25;
+    let timeRemaining = {{time_remaining}};
+    let totalTime = {{total_time}};
+    let timerInterval;
+    
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerCircle = document.getElementById('timerCircle');
+    
+    startTimer();
+    
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+            updateTimerCircle();
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                window.location.href = "{% url 'submit_exam_attempt' %}?attempt_uid={{ attempt.uid }}";
+            }
+        }, 1000);
+    }
+    
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    function updateTimerCircle() {
+        const elapsed = totalTime - timeRemaining;
+        const percentage = (elapsed / totalTime) * 360;
+        
+        let color = '#052FAD';
+        if (timeRemaining <= 60) {
+            color = '#dc2626';
+        } else if (timeRemaining <= 300) {
+            color = '#f59e0b';
+        }
+        
+        timerCircle.style.background = `conic-gradient(${color} ${percentage}deg, #e5e7eb ${percentage}deg)`;
+    }
+    
+    function goToQuestion(questionNum) {
+        currentQuestion = questionNum;
+        document.getElementById('currentQuestionNum').textContent = questionNum;
+        
+        document.querySelectorAll('.sidebar-question').forEach((btn, index) => {
+            btn.classList.remove('current');
+            if (index + 1 === questionNum) {
+                btn.classList.add('current');
+            }
+        });
+        
+        document.getElementById('prevBtn').disabled = questionNum === 1;
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.innerHTML = questionNum === totalQuestions ? 'Finish<i class="fas fa-check ml-2"></i>' : 'Next<i class="fas fa-chevron-right ml-2"></i>';
+    }
+    
+    document.querySelectorAll('.question-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+    
+    document.querySelectorAll('.sidebar-question').forEach((btn, index) => {
+        btn.addEventListener('click', () => goToQuestion(index + 1));
+    });
+    
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        if (currentQuestion < totalQuestions) {
+            goToQuestion(currentQuestion + 1);
+        }
+    });
+    
+    document.getElementById('prevBtn').addEventListener('click', function() {
+        if (currentQuestion > 1) {
+            goToQuestion(currentQuestion - 1);
+        }
+    });
+
+});
+function confirmSubmition() {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to change your answers after submitting!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, submit it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "{% url 'submit_exam_attempt' %}?attempt_uid={{ attempt.uid }}";
+        }
+    });
+}
+function clearResponse(q_uid) {
+    window.location.href = `{% url 'clear_response' %}?attempt_uid={{ attempt.uid }}&q_uid=${q_uid}`;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,244 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}Admin Dashboard - SkillVerse{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100">
+                    <i class="fas fa-users text-2xl text-[#052FAD]"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Users</p>
+                    <p class="text-2xl font-bold text-gray-900">1,247</p>
+                    <p class="text-xs text-green-600">+12% from last month</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100">
+                    <i class="fas fa-clipboard-list text-2xl text-green-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Active Exams</p>
+                    <p class="text-2xl font-bold text-gray-900">45</p>
+                    <p class="text-xs text-green-600">+3 new this week</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100">
+                    <i class="fas fa-chart-line text-2xl text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Exam Attempts</p>
+                    <p class="text-2xl font-bold text-gray-900">3,892</p>
+                    <p class="text-xs text-green-600">+18% this month</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-purple-100">
+                    <i class="fas fa-certificate text-2xl text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Certificates Issued</p>
+                    <p class="text-2xl font-bold text-gray-900">892</p>
+                    <p class="text-xs text-green-600">+25 today</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts and Analytics -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Recent Activity -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Recent Activity</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center p-4 bg-gray-50">
+                        <div class="w-10 h-10 bg-green-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user-plus text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">New user registered</p>
+                            <p class="text-sm text-gray-600">John Doe joined the platform</p>
+                        </div>
+                        <span class="text-sm text-gray-500">2 min ago</span>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-gray-50">
+                        <div class="w-10 h-10 bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-clipboard-check text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">Exam completed</p>
+                            <p class="text-sm text-gray-600">Python Fundamentals exam by Sarah Wilson</p>
+                        </div>
+                        <span class="text-sm text-gray-500">5 min ago</span>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-gray-50">
+                        <div class="w-10 h-10 bg-purple-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-certificate text-purple-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">Certificate issued</p>
+                            <p class="text-sm text-gray-600">Web Development certificate to Mike Johnson</p>
+                        </div>
+                        <span class="text-sm text-gray-500">10 min ago</span>
+                    </div>
+                    
+                    <div class="flex items-center p-4 bg-gray-50">
+                        <div class="w-10 h-10 bg-yellow-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">System alert</p>
+                            <p class="text-sm text-gray-600">High server load detected</p>
+                        </div>
+                        <span class="text-sm text-gray-500">15 min ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="{% url 'admin_dashboard:exams' %}" class="flex flex-col items-center p-4 bg-[#052FAD] text-white hover:bg-[#001F5C] transition-colors duration-300">
+                        <i class="fas fa-plus text-2xl mb-2"></i>
+                        <span class="font-medium">Create Exam</span>
+                    </a>
+                    
+                    <a href="{% url 'admin_dashboard:users' %}" class="flex flex-col items-center p-4 bg-white border-2 border-[#052FAD] text-[#052FAD] hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        <i class="fas fa-user-plus text-2xl mb-2"></i>
+                        <span class="font-medium">Add User</span>
+                    </a>
+                    
+                    <a href="{% url 'admin_dashboard:programs' %}" class="flex flex-col items-center p-4 bg-white border-2 border-[#052FAD] text-[#052FAD] hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        <i class="fas fa-book-open text-2xl mb-2"></i>
+                        <span class="font-medium">New Program</span>
+                    </a>
+                    
+                    <a href="{% url 'admin_dashboard:certificates' %}" class="flex flex-col items-center p-4 bg-white border-2 border-[#052FAD] text-[#052FAD] hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        <i class="fas fa-award text-2xl mb-2"></i>
+                        <span class="font-medium">Issue Certificate</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Status -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">System Status</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 mx-auto mb-3 flex items-center justify-center">
+                        <i class="fas fa-server text-2xl text-green-600"></i>
+                    </div>
+                    <h4 class="font-medium text-gray-900">Server Status</h4>
+                    <p class="text-sm text-green-600">Online</p>
+                    <p class="text-xs text-gray-500">99.9% uptime</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 mx-auto mb-3 flex items-center justify-center">
+                        <i class="fas fa-database text-2xl text-blue-600"></i>
+                    </div>
+                    <h4 class="font-medium text-gray-900">Database</h4>
+                    <p class="text-sm text-blue-600">Healthy</p>
+                    <p class="text-xs text-gray-500">2.3GB used</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-yellow-100 mx-auto mb-3 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-2xl text-yellow-600"></i>
+                    </div>
+                    <h4 class="font-medium text-gray-900">Security</h4>
+                    <p class="text-sm text-yellow-600">Protected</p>
+                    <p class="text-xs text-gray-500">Last scan: 2h ago</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Performance Metrics -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Exam Performance -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Exam Performance</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Average Score</span>
+                        <span class="text-lg font-bold text-[#052FAD]">78.5%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Pass Rate</span>
+                        <span class="text-lg font-bold text-green-600">85.2%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Completion Rate</span>
+                        <span class="text-lg font-bold text-blue-600">92.1%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Programs -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Top Programs</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Data Science</span>
+                        <span class="text-sm text-gray-600">456 students</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Web Development</span>
+                        <span class="text-sm text-gray-600">389 students</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Machine Learning</span>
+                        <span class="text-sm text-gray-600">234 students</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Cloud Computing</span>
+                        <span class="text-sm text-gray-600">168 students</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

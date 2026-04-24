@@ -1,0 +1,609 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% include 'components/toast.html' with messages=messages %}
+{% load static %}
+<div class="bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-medium text-gray-900">Explore Content</h1>
+            <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-600">Sort by:</span>
+                <select class="border border-gray-300 rounded px-3 py-1 text-sm">
+                    <option>Featured</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            <!-- Sidebar -->
+            <div class="w-64 flex-shrink-0">
+                <!-- Tabs -->
+                <div class="flex bg-gray-200 rounded-lg p-1 mb-6">
+                    <a href="?type=all" class="flex-1 {% if current_type == 'all' %}bg-white text-gray-900{% else %}text-gray-600 hover:bg-gray-100{% endif %} px-4 py-2 rounded text-sm font-medium text-center transition-colors">
+                        All <span class="text-gray-500">{{ all_count }}</span>
+                    </a>
+                    <a href="?type=courses" class="flex-1 {% if current_type == 'courses' %}bg-white text-gray-900{% else %}text-gray-600 hover:bg-gray-100{% endif %} px-4 py-2 rounded text-sm text-center transition-colors">
+                        Courses <span class="text-gray-500">{{ courses_count }}</span>
+                    </a>
+                    <a href="?type=guided_projects" class="flex-1 {% if current_type == 'guided_projects' %}bg-white text-gray-900{% else %}text-gray-600 hover:bg-gray-100{% endif %} px-4 py-2 rounded text-sm text-center transition-colors">
+                        Guided Projects <span class="text-gray-500">{{ guided_projects_count }}</span>
+                    </a>
+                </div>
+
+                <button onclick='resetFilter()' class="w-full border border-gray-300 bg-white px-4 py-2 rounded text-sm mb-6">Reset Filters</button>
+
+                <!-- Filters -->
+                <div class="space-y-2">
+                    <!-- Skills Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('skills')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Skills <svg id="skills-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="skills-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2 max-h-48 overflow-y-auto">
+                                {% for skill in skills %}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" name='course_skill' value='{{ skill.name }}' onchange='filterSkill()' class="rounded border-gray-300"> {{ skill.name }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('tier')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Tier <svg id="tier-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="tier-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                {% for tier in tiers %}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" name='course_tier' value='{{ tier.name }}' onchange='filterTier()' class="rounded border-gray-300"> {{ tier.name }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('topic')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Topic <svg id="topic-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="topic-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2 max-h-48 overflow-y-auto">
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Artificial Intelligence
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Big Data
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Blockchain
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Business Intelligence
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Difficulty Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('difficulty')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Difficulty <svg id="difficulty-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="difficulty-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                {% for difficulty_level in difficulty_levels %}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" name='course_difficulty' value='{{ difficulty_level.level }}' onchange='filterDifficulty()' class="rounded border-gray-300"> {{difficulty_level.level}}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platform Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('platform')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Platform <svg id="platform-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="platform-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Web
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Mobile
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> Desktop
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Language Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('language')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Language <svg id="language-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="language-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                {% for language in languages %}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" name='course_language' value='{{ language.code }}' onchange='filterLanguage()' class="rounded border-gray-300"> {{ language.name }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Offered By Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('offered')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Offered By <svg id="offered-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="offered-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                {% if offered_bys %}
+                                    {% for offered_by in offered_bys %}
+                                    <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                        <input type="checkbox" name='course_offered_by' value='{{ offered_by.organization_name }}' onchange='filterOfferedBy()' class="rounded border-gray-300"> {{ offered_by.organization_name }}
+                                    </label>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Industries Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('industries')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Industries <svg id="industries-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="industries-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                {% for industry in industries %}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" name='course_industry' value='{{ industry.name }}' onchange='filterIndustry()' class="rounded border-gray-300"> {{ industry.name }}
+                                </label> 
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ratings Filter -->
+                    <div class="border border-gray-200 rounded">
+                        <button onclick="toggleFilter('ratings')" class="flex justify-between items-center w-full text-left font-medium text-gray-900 p-3 hover:bg-gray-50">
+                            Ratings <svg id="ratings-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div id="ratings-content" class="hidden overflow-hidden transition-all duration-300 ease-in-out">
+                            <div class="p-3 pt-0 space-y-2">
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> 4.5+ Stars
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> 4.0+ Stars
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                    <input type="checkbox" class="rounded border-gray-300"> 3.5+ Stars
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1">
+                <div class="mb-6">
+                    <h2 class="text-lg font-medium text-gray-900">Results ({{ courses.count }})</h2>
+                </div>
+
+                <!-- Course Grid -->
+                <div id='course-container' class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Course 1: Python for Data Science -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-blue-300 to-blue-400 p-6 flex items-center justify-center">
+                            <div class="bg-white rounded-lg p-4 shadow-lg">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-bold text-lg">Py</span>
+                                    </div>
+                                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-bold text-lg">th</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-center text-gray-700 font-medium">python</div>
+                            </div>
+                            <div class="ml-4 flex items-center gap-2">
+                                <div class="w-8 h-8 bg-gray-600 rounded-full"></div>
+                                <div class="w-8 h-8 bg-blue-400 rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex gap-2 mb-3">
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Beginner</span>
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Course</span>
+                            </div>
+                            <h3 class="font-medium text-gray-900 mb-2">Python for Data Science</h3>
+                            <p class="text-sm text-gray-600 mb-3">Data Science, Python</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-600">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+                                    414k+ Enrolled
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 text-sm">
+                                <span class="flex items-center gap-1 text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    18 Hours
+                                </span>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                    <span class="font-medium">4.7</span>
+                                    <span class="text-gray-500">(43.2k+ Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 2: SQL and Relational Databases 101 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 p-6 flex items-center justify-center">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-12 bg-blue-800 rounded flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">SQL</span>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <div class="w-12 h-2 bg-green-400 rounded"></div>
+                                    <div class="w-12 h-2 bg-blue-300 rounded"></div>
+                                    <div class="w-12 h-2 bg-cyan-300 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex gap-2 mb-3">
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Beginner</span>
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Course</span>
+                            </div>
+                            <h3 class="font-medium text-gray-900 mb-2">SQL and Relational Databases 101</h3>
+                            <p class="text-sm text-gray-600 mb-3">Databases, SQL</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-600">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+                                    125k+ Enrolled
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 text-sm">
+                                <span class="flex items-center gap-1 text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    3 Hours
+                                </span>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                    <span class="font-medium">4.6</span>
+                                    <span class="text-gray-500">(14.9k+ Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 3: Data Analysis with Python -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-blue-300 to-blue-400 p-6 flex items-center justify-center">
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-bold text-lg">Py</span>
+                                    </div>
+                                    <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-bold text-lg">th</span>
+                                    </div>
+                                </div>
+                                <div class="w-16 h-12 bg-white rounded border-2 border-gray-300 flex items-center justify-center">
+                                    <div class="w-8 h-6 bg-blue-500 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex gap-2 mb-3">
+                                <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Beginner</span>
+                                <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Course</span>
+                            </div>
+                            <h3 class="font-medium text-gray-900 mb-2">Data Analysis with Python</h3>
+                            <p class="text-sm text-gray-600 mb-3">Data Analysis, Data Science, Numpy, +3 more</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-600">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+                                    80.4k+ Enrolled
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3 text-sm">
+                                <span class="flex items-center gap-1 text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    15 Hours
+                                </span>
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                    <span class="font-medium">4.6</span>
+                                    <span class="text-gray-500">(11.4k+ Reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_head %}
+
+<script>
+    function toggleFilter(filterId) {
+        const content = document.getElementById(filterId + '-content');
+        const icon = document.getElementById(filterId + '-icon');
+        
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.style.transform = 'rotate(180deg)';
+        } else {
+            content.style.maxHeight = '0px';
+            icon.style.transform = 'rotate(0deg)';
+            setTimeout(() => {
+                content.classList.add('hidden');
+            }, 300);
+        }
+    }
+
+    function feedData(data) {
+        let CourseContainer = document.getElementById('course-container');
+        CourseContainer.innerHTML = "";
+            data.data.forEach((course) => {
+                CourseContainer.innerHTML += `
+                <a href='/course/${course.slug}' class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-blue-300 to-blue-400 overflow-hidden">
+                        <img src='${course.image ? course.image : "https://dummyimage.com/400x400/7174c6/fff&text=ASPL-"+course.title}' alt='${course.title}' class='w-full h-full object-cover'/>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex gap-2 mb-3">
+                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">${course.difficulty_level ? course.difficulty_level.level : 'Beginner'}</span>
+                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">Course</span>
+                        </div>
+                        <h3 class="font-medium text-gray-900 mb-2">${course.title}</h3>
+                        <p class="text-sm text-gray-600 mb-3"></p>
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <span class="flex items -center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+                                ${course.enrolled_count}+ Enrolled
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between mt-3 text-sm">
+                            <span class="flex items-center gap-1 text-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                ${course.duration} Hours
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                <span class="font-medium">${course.rating}</span>
+                                <span class="text-gray-500">(${course.review_count}+ Reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                `;
+            
+
+            });
+    }
+
+    function ShowPreloader() {
+        let CourseContainer = document.getElementById('course-container');
+        // fully animated preloader
+        CourseContainer.innerHTML = "";
+        let i;
+         for(i=0;i<6;i++){
+            CourseContainer.innerHTML += `
+                <div
+                class="max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-400"
+                >
+                <div
+                    class="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-400"
+                >
+                    <svg
+                    viewBox="0 0 16 20"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                    >
+                    <path
+                        d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"
+                    ></path>
+                    <path
+                        d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"
+                    ></path>
+                    </svg>
+                </div>
+                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-400 w-48 mb-4"></div>
+                <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-400 mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-400"></div>
+                <div class="flex items-center mt-4">
+                    <svg
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    class="w-10 h-10 me-3 text-gray-200 dark:text-gray-400"
+                    >
+                    <path
+                        d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"
+                    ></path>
+                    </svg>
+                    <div>
+                    <div
+                        class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-400 w-32 mb-2"
+                    ></div>
+                    <div class="w-48 h-2 bg-gray-200 rounded-full dark:bg-gray-400"></div>
+                    </div>
+                </div>
+                <span class="sr-only">Loading...</span>
+                </div>
+
+        `}; ;
+    }
+
+    function filterLanguage() {
+        ShowPreloader()
+        let selectedLanguages = [];
+        document.querySelectorAll("input[name='course_language']:checked").forEach((checkbox) => {
+            selectedLanguages.push(checkbox.value.trim());
+        });
+        console.log('Selected Languages:', selectedLanguages);
+        const Url = '/api/courses/?languages=' + selectedLanguages.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function filterSkill() {
+        ShowPreloader()
+        let selectedSkills = [];
+        document.querySelectorAll("input[name='course_skill']:checked").forEach((checkbox) => {
+            selectedSkills.push(checkbox.value.trim());
+        });
+        console.log('Selected Skills:', selectedSkills);
+        const Url = '/api/courses/?skills=' + selectedSkills.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function filterTier() {
+        ShowPreloader()
+        let selectedTiers = [];
+        document.querySelectorAll("input[name='course_tier']:checked").forEach((checkbox) => {
+            selectedTiers.push(checkbox.value.trim());
+        });
+        console.log('Selected Tiers:', selectedTiers);
+        const Url = '/api/courses/?tiers=' + selectedTiers.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function filterDifficulty() {
+        ShowPreloader()
+        let selectedDifficulties = [];
+        document.querySelectorAll("input[name='course_difficulty']:checked").forEach((checkbox) => {
+            selectedDifficulties.push(checkbox.value.trim());
+        });
+        console.log('Selected Difficulties:', selectedDifficulties);
+        const Url = '/api/courses/?difficulties=' + selectedDifficulties.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function filterOfferedBy() {
+        ShowPreloader()
+        let selectedOfferedBys = [];
+        document.querySelectorAll("input[name='course_offered_by']:checked").forEach((checkbox) => {
+            selectedOfferedBys.push(checkbox.value.trim());
+        });
+        console.log('Selected Offered Bys:', selectedOfferedBys);
+        const Url = '/api/courses/?offered_bys=' + selectedOfferedBys.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function filterIndustry() {
+        ShowPreloader()
+        let selectedIndustries = [];
+        document.querySelectorAll("input[name='course_industry']:checked").forEach((checkbox) => {
+            selectedIndustries.push(checkbox.value.trim());
+        });
+        console.log('Selected Industries:', selectedIndustries);
+        const Url = '/api/courses/?industries=' + selectedIndustries.join(',');
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    function resetFilter() {
+        ShowPreloader()
+        document.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+        const Url = '/api/courses/';
+        console.log(Url);
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));  
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        ShowPreloader()
+        const Url = '/api/courses/'
+        let CourseContainer = document.getElementById('course-container');
+        fetch(Url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                feedData(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+
+</script>
+{% endblock extra_head %}
+{% endblock content %}

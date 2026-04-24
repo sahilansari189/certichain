@@ -1,0 +1,54 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="flex justify-center items-center mt-12 space-x-2">
+    
+    <!-- First Page -->
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="px-3 py-2 text-[#052FAD] hover:bg-blue-50 font-ibm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50" aria-label="First page">
+            <i class="fas fa-angle-double-left"></i>
+        </a>
+    {% endif %}
+    
+    <!-- Previous Page -->
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#052FAD] hover:bg-blue-50 font-ibm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50" aria-label="Previous page">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+    {% endif %}
+    
+    <!-- Page Numbers -->
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <span class="px-4 py-2 bg-[#052FAD] text-white font-medium font-ibm rounded" aria-current="page">{{ num }}</span>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}" class="px-4 py-2 text-[#052FAD] border border-[#052FAD] hover:bg-[#052FAD] hover:text-white font-ibm rounded transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50">{{ num }}</a>
+        {% elif num == 1 or num == page_obj.paginator.num_pages %}
+            <a href="?page={{ num }}" class="px-4 py-2 text-[#052FAD] border border-[#052FAD] hover:bg-[#052FAD] hover:text-white font-ibm rounded transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50">{{ num }}</a>
+        {% elif num == page_obj.number|add:'-4' or num == page_obj.number|add:'4' %}
+            <span class="px-2 text-gray-400 font-ibm">...</span>
+        {% endif %}
+    {% endfor %}
+    
+    <!-- Next Page -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#052FAD] hover:bg-blue-50 font-ibm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50" aria-label="Next page">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    {% endif %}
+    
+    <!-- Last Page -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-[#052FAD] hover:bg-blue-50 font-ibm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#052FAD] focus:ring-opacity-50" aria-label="Last page">
+            <i class="fas fa-angle-double-right"></i>
+        </a>
+    {% endif %}
+    
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+    
+    .font-ibm {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+</style>
+{% endif %}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard - SkillVerse{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+        
+        .font-ibm {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link:hover {
+            background-color: rgba(5, 47, 173, 0.1);
+            border-left: 4px solid #052FAD;
+        }
+        
+        .sidebar-link.active {
+            background-color: rgba(5, 47, 173, 0.1);
+            border-left: 4px solid #052FAD;
+            color: #052FAD;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-ibm">
+    
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300" id="sidebar">
+        <div class="flex items-center justify-center h-16 bg-[#001F5C]">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-white flex items-center justify-center mr-3">
+                    <i class="fas fa-graduation-cap text-[#001F5C] text-lg"></i>
+                </div>
+                <h1 class="text-xl font-bold text-white font-ibm">Admin<span class="text-cyan-400">Panel</span></h1>
+            </div>
+        </div>
+        
+        <nav class="mt-8">
+            <a href="{% url 'admin_dashboard:dashboard' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="{% url 'admin_dashboard:users' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-users mr-3"></i>
+                Users
+            </a>
+            <a href="{% url 'admin_dashboard:programs' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-book mr-3"></i>
+                Programs
+            </a>
+            <a href="{% url 'admin_dashboard:exams' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-clipboard-list mr-3"></i>
+                Exams
+            </a>
+            <a href="{% url 'admin_dashboard:results' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-chart-bar mr-3"></i>
+                Results
+            </a>
+            <a href="{% url 'admin_dashboard:certificates' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-certificate mr-3"></i>
+                Certificates
+            </a>
+            <a href="{% url 'admin_dashboard:settings' %}" class="sidebar-link flex items-center px-6 py-3 text-gray-700 hover:text-[#052FAD]">
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+            </a>
+        </nav>
+        
+        <div class="absolute bottom-0 w-full p-6">
+            <a href="{% url 'logout' %}" class="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-300">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <!-- Top Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center">
+                    <button class="lg:hidden text-gray-600 hover:text-[#052FAD]" onclick="toggleSidebar()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="ml-4 text-2xl font-medium text-gray-900 font-ibm">{% block page_title %}Admin Dashboard{% endblock %}</h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="flex items-center text-gray-600 hover:text-[#052FAD]">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center">5</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-[#052FAD] text-white flex items-center justify-center font-medium">
+                            A
+                        </div>
+                        <span class="ml-3 text-gray-700 font-medium">Admin User</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Page Content -->
+        <main class="p-6">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+        
+        // Set active sidebar link
+        const currentPath = window.location.pathname;
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        sidebarLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

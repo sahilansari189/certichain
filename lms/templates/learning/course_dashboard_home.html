@@ -1,0 +1,425 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% include 'components/toast.html' with messages=messages %}
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #6c757d;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tab.active {
+            color: #333;
+            border-bottom-color: #007bff;
+            font-weight: 500;
+        }
+        
+        .course-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .left-section {
+            flex: 2;
+        }
+        
+        .right-section {
+            flex: 1;
+        }
+        
+        .section-header {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 10px 20px  20px 10px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .resume-btn {
+            background-color: #8e44ad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .welcome-text {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid #007bff;
+            color: #007bff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .expand-btn {
+            background: white;
+            border: 1px solid #007bff;
+            color: #007bff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+        }
+        
+        .course-modules {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .module-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+        
+        .module-item:last-child {
+            border-bottom: none;
+        }
+        
+        .module-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+            color: #28a745;
+        }
+        
+        .module-icon.inactive {
+            color: #6c757d;
+        }
+        
+        .module-sub-item {
+            padding: 12px 25px 12px 60px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #007bff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .module-sub-item:hover {
+            background: #e9ecef;
+        }
+        
+        .sub-item-icon {
+            font-size: 12px;
+            color: #28a745;
+        }
+        
+        .sub-item-icon.inactive {
+            color: #6c757d;
+        }
+        
+        .module-title {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .module-expand {
+            font-size: 20px;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .module-expand:hover {
+            background-color: #202428ff;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .module-expand.expanded {
+            transform: rotate(45deg);
+        }
+
+        .module-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .module-content.expanded {
+            max-height: 500px;
+        }
+        
+        .module-sub-item {
+            padding: 12px 25px 12px 60px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #007bff;
+            cursor: pointer;
+        }
+        
+        .module-sub-item:hover {
+            background: #e9ecef;
+        }
+        
+        .goal-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .goal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .goal-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .goal-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .goal-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            background: white;
+            position: relative;
+        }
+        
+        .goal-option.selected {
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+        
+        .goal-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .goal-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .goal-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .goal-desc {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .reminder-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .toggle-switch {
+            width: 40px;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .toggle-slider {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .toggle-switch.active {
+            background: #007bff;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(20px);
+        }
+        
+        .tools-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .tools-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .tool-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+        
+        .handouts-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .handouts-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .handout-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick='window.location.href="{% url "learning_home" course.slug %}"'>Course</button>
+            <button class="nav-tab" onclick='window.location.href="{% url "learning_progress" course.slug %}"'>Progress</button>
+            <button class="nav-tab">Discussion</button>
+        </nav>
+        {% block sub_course_dashboard %}
+            
+        {% endblock sub_course_dashboard %}
+    </div>
+{% endblock content %}

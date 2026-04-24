@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .diagonal-split {
+        clip-path: polygon(0 0, 60% 0, 45% 100%, 0% 100%);
+    }
+</style>
+
+<div class="min-h-screen bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Left Section - Branding -->
+        <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 diagonal-split hidden lg:block">
+            <div class="absolute top-8 left-8">
+                <img src="{% static 'images/svlogo.png' %}" alt="SkillVerse Logo" class="h-16 w-auto">
+            </div>
+            
+            <div class="flex flex-col justify-center h-full px-16 text-white">
+                <h1 class="text-5xl font-bold leading-tight">
+                    Start<br>
+                    learning<br>
+                    <span class="text-cyan-400">with<br>
+                    SkillVerse</span>
+                </h1>
+            </div>
+        </div>
+        
+        <!-- Right Section - Error Message -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center px-8 py-12">
+            <div class="w-full max-w-md text-center">
+                <!-- Error Icon -->
+                <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
+                    <i class="fas fa-exclamation-triangle text-white text-4xl"></i>
+                </div>
+                
+                <!-- Header -->
+                <h1 class="text-4xl font-bold text-gray-900 mb-3">Activation Failed</h1>
+                <h2 class="text-xl font-medium text-red-600 mb-6">Invalid or Expired Token</h2>
+                
+                <!-- Error Message -->
+                <div class="mb-8">
+                    <p class="text-gray-600 text-lg mb-4">
+                        The activation link you used is either invalid or has expired.
+                    </p>
+                    <p class="text-gray-600">
+                        Please request a new activation link to complete your SkillVerse account setup.
+                    </p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="space-y-4">
+                    <a href="{% url 'login' %}" 
+                       class="w-full bg-blue-600 text-white py-4 px-6 rounded-md font-semibold text-lg hover:bg-blue-700 transition-colors inline-block">
+                        Request New Link
+                    </a>
+                    
+                    <a href="{% url 'login' %}" 
+                       class="w-full border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-md font-medium text-lg hover:bg-blue-600 hover:text-white transition-colors inline-block">
+                        Try Signing In
+                    </a>
+                </div>
+                
+                <!-- Help Section -->
+                <div class="mt-10 pt-8 border-t border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Need Help?</h3>
+                    <div class="space-y-4 text-left">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-red-600"></i>
+                            </div>
+                            <span class="text-gray-700">Activation links expire in 5 minutes</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-red-600"></i>
+                            </div>
+                            <span class="text-gray-700">Check your spam/junk folder</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-redo text-red-600"></i>
+                            </div>
+                            <span class="text-gray-700">Request a fresh activation link</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-headset text-red-600"></i>
+                            </div>
+                            <span class="text-gray-700">Contact support if issues persist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

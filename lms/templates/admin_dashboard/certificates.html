@@ -1,0 +1,327 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}Certificate Management - Admin Dashboard{% endblock %}
+{% block page_title %}Certificate Management{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- Certificate Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100">
+                    <i class="fas fa-certificate text-2xl text-[#052FAD]"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Certificates</p>
+                    <p class="text-2xl font-bold text-gray-900">892</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100">
+                    <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Issued Today</p>
+                    <p class="text-2xl font-bold text-gray-900">25</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100">
+                    <i class="fas fa-clock text-2xl text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Pending</p>
+                    <p class="text-2xl font-bold text-gray-900">12</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-purple-100">
+                    <i class="fas fa-download text-2xl text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Downloaded</p>
+                    <p class="text-2xl font-bold text-gray-900">567</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions Bar -->
+    <div class="bg-white p-6 shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex gap-4">
+                <button class="bg-[#052FAD] text-white px-6 py-3 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                    <i class="fas fa-plus mr-2"></i>Issue Certificate
+                </button>
+                <button class="bg-white border-2 border-[#052FAD] text-[#052FAD] px-6 py-3 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                    <i class="fas fa-upload mr-2"></i>Bulk Issue
+                </button>
+                <button class="bg-white border-2 border-gray-300 text-gray-700 px-6 py-3 font-medium hover:bg-gray-50 transition-colors duration-300">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+            </div>
+            
+            <div class="flex gap-4">
+                <input type="text" placeholder="Search certificates..." class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                <select class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                    <option>All Programs</option>
+                    <option>Data Science</option>
+                    <option>Web Development</option>
+                    <option>Machine Learning</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificates Table -->
+    <div class="bg-white shadow-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">All Certificates</h3>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certificate ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Issue Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-[#052FAD] text-white flex items-center justify-center font-medium mr-4">
+                                    JD
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">John Doe</div>
+                                    <div class="text-sm text-gray-500">john.doe@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Python Programming Fundamentals</div>
+                            <div class="text-sm text-gray-500">Data Science Program</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-mono text-gray-900">CERT-2024-001</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 15, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                Issued
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">View</button>
+                            <button class="text-green-600 hover:text-green-800 mr-3">Download</button>
+                            <button class="text-red-600 hover:text-red-800">Revoke</button>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-purple-600 text-white flex items-center justify-center font-medium mr-4">
+                                    SW
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Sarah Wilson</div>
+                                    <div class="text-sm text-gray-500">sarah.wilson@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Web Development Fundamentals</div>
+                            <div class="text-sm text-gray-500">Full Stack Program</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-mono text-gray-900">CERT-2024-002</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 14, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                Issued
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">View</button>
+                            <button class="text-green-600 hover:text-green-800 mr-3">Download</button>
+                            <button class="text-red-600 hover:text-red-800">Revoke</button>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-600 text-white flex items-center justify-center font-medium mr-4">
+                                    EC
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                    <div class="text-sm text-gray-500">emily.chen@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Machine Learning Basics</div>
+                            <div class="text-sm text-gray-500">AI/ML Program</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-mono text-gray-900">CERT-2024-003</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 13, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">Issue</button>
+                            <button class="text-gray-400 cursor-not-allowed mr-3">Download</button>
+                            <button class="text-gray-400 cursor-not-allowed">Revoke</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Certificate Templates -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Certificate Templates</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Template 1 -->
+                <div class="border border-gray-200 overflow-hidden">
+                    <div class="w-full h-48 bg-gradient-to-r from-[#052FAD] to-[#001F5C] flex items-center justify-center">
+                        <i class="fas fa-certificate text-white text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-medium text-gray-900 mb-2">IBM Style Certificate</h4>
+                        <p class="text-sm text-gray-600 mb-4">Professional IBM-themed certificate template</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 text-sm font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                                Use Template
+                            </button>
+                            <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 text-sm font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Template 2 -->
+                <div class="border border-gray-200 overflow-hidden">
+                    <div class="w-full h-48 bg-gradient-to-r from-green-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-award text-white text-4xl"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Modern Certificate</h4>
+                        <p class="text-sm text-gray-600 mb-4">Clean and modern certificate design</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 text-sm font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                                Use Template
+                            </button>
+                            <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 text-sm font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                                Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add New Template -->
+                <div class="border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <div class="text-center p-6">
+                        <i class="fas fa-plus text-3xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-4">Create New Template</p>
+                        <button class="bg-[#052FAD] text-white px-6 py-2 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                            Add Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate Analytics -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Issuance Trends -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Certificate Issuance Trends</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">This Week</span>
+                        <span class="text-lg font-bold text-[#052FAD]">45</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">This Month</span>
+                        <span class="text-lg font-bold text-green-600">156</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">This Year</span>
+                        <span class="text-lg font-bold text-blue-600">892</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Program Distribution -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Certificates by Program</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Data Science</span>
+                        <span class="text-sm text-gray-600">234 certificates</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Web Development</span>
+                        <span class="text-sm text-gray-600">198 certificates</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Machine Learning</span>
+                        <span class="text-sm text-gray-600">89 certificates</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-900">Cloud Computing</span>
+                        <span class="text-sm text-gray-600">67 certificates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

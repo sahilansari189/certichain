@@ -1,0 +1,181 @@
+{% extends "base/base.html" %} {% block content %}
+{% include 'components/toast.html' with messages=messages %}
+
+<style>
+  :root {
+    --cds-interactive-01: #003366;
+    --cds-interactive-01-hover: lavender;
+    --cds-ui-01: #f4f4f4;
+    --cds-ui-02: #ffffff;
+    --cds-text-01: #161616;
+    --cds-text-02: #525252;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--cds-ui-02);
+    color: var(--cds-text-01);
+  }
+
+  .container-fixed {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Hero Section */
+  .contact-hero {
+    background-color: var(--cds-interactive-01);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .contact-title {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+
+  .contact-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  /* Contact Form Section */
+  .contact-content {
+    padding: 64px 0;
+    background-color: var(--cds-ui-01);
+  }
+
+  .form-container {
+    background: white;
+    padding: 40px;
+    border: 1px solid #e0e0e0;
+    /* No border radius */
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--cds-text-01);
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #8d8d8d;
+    background-color: #f4f4f4;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    /* No border radius */
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: 2px solid var(--cds-interactive-01);
+    border-color: transparent;
+  }
+
+  .form-textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  .btn-submit {
+    background-color: var(--cds-interactive-01);
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+    /* No border radius */
+  }
+
+  .btn-submit:hover {
+    background-color: var(--cds-interactive-01-hover);
+    color: black;
+  }
+
+  /* Info Section */
+  .info-section {
+    padding: 48px 0;
+    text-align: center;
+    background-color: var(--cds-ui-02);
+  }
+
+  .info-item {
+    margin-bottom: 24px;
+  }
+
+  .info-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--cds-interactive-01);
+  }
+
+  .info-text {
+    color: var(--cds-text-02);
+  }
+</style>
+
+<div class="contact-hero">
+  <div class="container-fixed">
+    <h1 class="contact-title">Contact Us</h1>
+    <p class="contact-subtitle">We'd love to hear from you. Send us a message.</p>
+  </div>
+</div>
+
+<div class="contact-content">
+  <div class="container-fixed">
+    <div class="form-container">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" name="name" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" id="subject" name="subject" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="message" class="form-label">Message</label>
+          <textarea id="message" name="message" class="form-textarea" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="info-section">
+  <div class="container-fixed">
+    <div class="info-item">
+      <div class="info-label">Email Support</div>
+      <div class="info-text">support@asplskillverse.com</div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

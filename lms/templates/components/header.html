@@ -1,0 +1,431 @@
+{% load static %}
+<!-- Header -->
+<header class="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
+    <nav class="flex items-center px-4 sm:px-6 py-3 h-16">
+        <!-- Logo & Brand -->
+        <div class="flex items-center gap-4 mr-4 sm:mr-8 h-full">
+            <a href="{% url 'home' %}" class="flex items-center h-full">
+                <img src="{% static 'images/logo_.png' %}" alt="Logo" class="h-10 w-auto object-contain">
+            </a>
+            <div class="w-px h-6 bg-gray-300"></div>
+            <a href='{% url "course_list" %}' class="flex items-center h-full">
+                <img src="{% static 'images/ASPL_.png' %}" alt="ASPL" class="h-8 w-auto object-contain">
+            </a>
+        </div>
+
+        <!-- Navigation Links -->
+        {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+
+        <ul class="hidden md:flex items-center gap-8 text-black font-medium font-aspl flex-1">
+            <li class="relative group">
+                <a href="#" class="flex items-center gap-1 hover:text-blue-600 transition-colors duration-200 py-4">
+                    Learners
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div
+                    class="fixed top-16 left-0 w-full bg-white shadow-lg border-t opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="max-w-6xl mx-auto px-6 py-8">
+                        <div class="grid grid-cols-3 gap-8">
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    High school students
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Explore learning</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Digital credentials</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Try it before you register</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    College students
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Course catalog</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Hackathons</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Adult learners
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Explore learning</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Digital credentials</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Try it before you register</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="relative group">
+                <a href="#" class="flex items-center gap-1 hover:text-blue-600 transition-colors duration-200 py-4">
+                    Educators
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div
+                    class="fixed top-16 left-0 w-full bg-white shadow-lg border-t opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="max-w-6xl mx-auto px-6 py-8">
+                        <div class="grid grid-cols-3 gap-8">
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    K-12 educators
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Curriculum resources</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Professional development</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Community</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Higher education
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Faculty resources</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Student engagement</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Workforce development
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Training programs</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Skills assessment</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="relative group">
+                <a href="#" class="flex items-center gap-1 hover:text-blue-600 transition-colors duration-200 py-4">
+                    Organizations
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </a>
+                <div
+                    class="fixed top-16 left-0 w-full bg-white shadow-lg border-t opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="max-w-6xl mx-auto px-6 py-8">
+                        <div class="grid grid-cols-3 gap-8">
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Nonprofits
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Program resources</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Community impact</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Partnership opportunities</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Government agencies
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Workforce initiatives</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Public-private partnerships</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-blue-600 font-medium mb-4 flex items-center gap-2">
+                                    Employers
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li><a href="#" class="hover:text-blue-600">Overview</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Employee training</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Skills development</a></li>
+                                    <li><a href="#" class="hover:text-blue-600">Talent pipeline</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a href="#" class="hover:text-blue-600 transition-colors duration-200 py-4">Spotlights</a></li>
+            <li><a href="#" class="hover:text-blue-600 transition-colors duration-200 py-4">Events</a></li>
+        </ul>
+        {% endif %}
+        {% endif %}
+        <!-- Auth Buttons -->
+        {% if not request.user.is_authenticated %}
+        <div class="hidden md:flex items-center gap-3 lg:gap-4 ml-auto">
+            <a href="{% url 'login' %}"
+                class="text-blue-600 font-medium hover:text-blue-700 transition-colors font-aspl text-sm lg:text-base">Log
+                in</a>
+            <a href="{% url 'register' %}"
+                class="bg-blue-600 text-white px-3 lg:px-4 py-2 font-medium hover:bg-blue-700 transition-colors font-aspl text-sm lg:text-base">Sign
+                up</a>
+        </div>
+        {% else %}
+        <div class="hidden md:block relative ml-auto" id="userMenuContainer">
+            <button onclick="toggleUserMenu()"
+                class="flex items-center space-x-2 text-black font-aspl font-medium focus:outline-none text-sm lg:text-base transition-colors duration-200 hover:text-blue-600">
+                <span>{{ request.user.username }}</span>
+                <svg id="userMenuIcon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            <div id="userMenuDropdown"
+                class="absolute right-0 mt-2 w-48 bg-white shadow-lg border opacity-0 invisible transform scale-95 transition-all duration-200 z-10 origin-top-right rounded-md">
+                {% comment %} <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-aspl">Profile</a>
+                {% endcomment %}
+                {% if user.is_superuser %}
+                <a href="{% url 'admin:index' %}"
+                    class="block px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">Admin Pannel</a>
+                {% else %}
+                <a href="{% url 'my_courses' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">My
+                    Courses</a>
+                <a href="{% url 'certificates' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">
+                    Achievements</a>
+                <a href="{% url 'badges' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">
+                    Badges</a>
+                <a href="{% url 'nft_verify' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">
+                    <i class="fas fa-shield-alt text-xs mr-1" style="color: #6929c4;"></i> Blockchain Verify</a>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-50 font-aspl transition-colors">Logout</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Hamburger for Mobile -->
+        <button class="md:hidden p-1 ml-auto" onclick="toggleMobileMenu()">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <div class="px-4 py-4 space-y-3">
+            <!-- Navigation Links -->
+            <div class="space-y-2">
+                <!-- Learners Dropdown -->
+                <div>
+                    <button onclick="toggleMobileDropdown('learners')"
+                        class="flex items-center justify-between w-full py-2 text-black hover:text-blue-600 font-aspl text-base">
+                        Learners
+                        <svg class="w-4 h-4 transition-transform" id="learnersIcon" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div id="learnersDropdown" class="hidden pl-4 py-2 space-y-2 bg-gray-50">
+                        <div class="space-y-2">
+                            <div class="font-medium text-blue-600 text-sm">High school students</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Explore learning</a>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <div class="font-medium text-blue-600 text-sm">College students</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Course catalog</a>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <div class="font-medium text-blue-600 text-sm">Adult learners</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Explore learning</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educators Dropdown -->
+                <div>
+                    <button onclick="toggleMobileDropdown('educators')"
+                        class="flex items-center justify-between w-full py-2 text-black hover:text-blue-600 font-aspl text-base">
+                        Educators
+                        <svg class="w-4 h-4 transition-transform" id="educatorsIcon" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div id="educatorsDropdown" class="hidden pl-4 py-2 space-y-2 bg-gray-50">
+                        <div class="space-y-2">
+                            <div class="font-medium text-blue-600 text-sm">K-12 educators</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Curriculum resources</a>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <div class="font-medium text-blue-600 text-sm">Higher education</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Faculty resources</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organizations Dropdown -->
+                <div>
+                    <button onclick="toggleMobileDropdown('organizations')"
+                        class="flex items-center justify-between w-full py-2 text-black hover:text-blue-600 font-aspl text-base">
+                        Organizations
+                        <svg class="w-4 h-4 transition-transform" id="organizationsIcon" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div id="organizationsDropdown" class="hidden pl-4 py-2 space-y-2 bg-gray-50">
+                        <div class="space-y-2">
+                            <div class="font-medium text-blue-600 text-sm">Nonprofits</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Program resources</a>
+                        </div>
+                        <div class="space-y-2 pt-2">
+                            <div class="font-medium text-blue-600 text-sm">Government agencies</div>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Overview</a>
+                            <a href="#" class="block text-sm text-gray-600 hover:text-blue-600">Workforce
+                                initiatives</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="block py-2 text-black hover:text-blue-600 font-aspl text-base">Spotlights</a>
+                <a href="#" class="block py-2 text-black hover:text-blue-600 font-aspl text-base">Events</a>
+            </div>
+
+            <!-- Mobile Auth Buttons -->
+            {% if not request.user.is_authenticated %}
+            <div class="pt-3 border-t border-gray-200 space-y-2">
+                <a href="{% url 'login' %}"
+                    class="block w-full text-center py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors font-aspl">Log
+                    in</a>
+                <a href="{% url 'register' %}"
+                    class="block w-full text-center bg-blue-600 text-white py-2 font-medium hover:bg-blue-700 transition-colors font-aspl">Sign
+                    up</a>
+            </div>
+            {% else %}
+            <div class="pt-3 border-t border-gray-200 space-y-2">
+                <div class="text-gray-600 font-aspl text-sm">{{ request.user.username }}</div>
+                <a href="#" class="block py-2 text-black hover:text-blue-600 font-aspl">Profile</a>
+                {% if user.is_superuser %}
+                <a href="{% url 'admin:index' %}" class="block py-2 text-black hover:text-blue-600 font-aspl">Admin
+                    Pannel</a>
+                {% else %}
+                <a href="{% url 'certificates' %}" class="block py-2 text-black hover:text-blue-600 font-aspl">
+                    Achievements</a>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full text-left py-2 text-black hover:text-blue-600 font-aspl">Logout</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+    }
+
+    function toggleMobileDropdown(section) {
+        const dropdown = document.getElementById(section + 'Dropdown');
+        const icon = document.getElementById(section + 'Icon');
+
+        dropdown.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+    }
+
+    function toggleUserMenu() {
+        const dropdown = document.getElementById('userMenuDropdown');
+        const icon = document.getElementById('userMenuIcon');
+        
+        if (dropdown.classList.contains('invisible')) {
+            // Show
+            dropdown.classList.remove('invisible', 'opacity-0', 'scale-95');
+            dropdown.classList.add('opacity-100', 'scale-100');
+            icon.classList.add('rotate-180');
+        } else {
+            // Hide
+            dropdown.classList.add('invisible', 'opacity-0', 'scale-95');
+            dropdown.classList.remove('opacity-100', 'scale-100');
+            icon.classList.remove('rotate-180');
+        }
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('userMenuContainer');
+        const dropdown = document.getElementById('userMenuDropdown');
+        const icon = document.getElementById('userMenuIcon');
+        
+        if (container && !container.contains(event.target)) {
+            if (dropdown && !dropdown.classList.contains('invisible')) {
+                dropdown.classList.add('invisible', 'opacity-0', 'scale-95');
+                dropdown.classList.remove('opacity-100', 'scale-100');
+                icon.classList.remove('rotate-180');
+            }
+        }
+    });
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+    .font-aspl {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+</style>

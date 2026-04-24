@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Enrollment Notification</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f4f4f4;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <!-- Main Container -->
+                <table role="presentation" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    
+                    <!-- Header Section -->
+                    <tr>
+                        <td style="padding: 40px 40px 30px 40px; text-align: left;">
+                            <h1 style="margin: 0; font-size: 24px; font-weight: 600; color: #161616; line-height: 1.4;">
+                                You have been invited to {{ course_name }}
+                            </h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Body Content -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                            <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #525252;">
+                                You have been invited to enroll in <strong>{{ course_name }}</strong> on SkillVerse. This course is now available in your learning dashboard.
+                            </p>
+                            <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.6; color: #525252;">
+                                Please finish your registration to start learning and earn your certificate upon completion.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- CTA Button -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                            <table role="presentation" style="border-collapse: collapse;">
+                                <tr>
+                                    <td style="border-radius: 4px; background-color: #0f62fe;">
+                                        <a href="{{ course_url }}" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 500; color: #ffffff; text-decoration: none; border-radius: 4px;">
+                                            Finish Your Registration
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Additional Information -->
+                    <tr>
+                        <td style="padding: 0 40px 40px 40px;">
+                            <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.6; color: #525252;">
+                                The link will take you directly to <a href="{{ course_url }}" style="color: #0f62fe; text-decoration: none;">{{ course_url }}</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div style="border-top: 1px solid #e0e0e0;"></div>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 30px 40px;">
+                            <p style="margin: 0 0 10px 0; font-size: 12px; line-height: 1.5; color: #8d8d8d;">
+                                © {{ current_year }} SkillVerse. All rights reserved.
+                            </p>
+                            <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #8d8d8d;">
+                                Our mailing address is: <a href="mailto:{{ contact_email }}" style="color: #0f62fe; text-decoration: none;">{{ contact_email }}</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

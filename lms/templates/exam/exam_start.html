@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% include 'components/toast.html' %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+    
+    .font-ibm {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+</style>
+
+<section class="min-h-screen bg-gray-50 py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Exam Start Header -->
+        <div class="bg-white shadow-lg p-8">
+            <div class="text-center mb-6">
+                <h1 class="text-4xl font-light text-gray-900 font-ibm mb-2">Your Exam is About to Begin!</h1>
+                <div class="bg-gradient-to-r from-[#052FAD] to-[#001F5C] text-white px-6 py-2 inline-block">
+                    <span class="font-medium font-ibm">{{ exam.title }}</span>
+                </div>
+            </div>
+            
+            <!-- Exam Details -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="text-center">
+                    <i class="fas fa-clock text-[#052FAD] text-2xl mb-2"></i>
+                    <p class="text-gray-600 font-light font-ibm">Duration</p>
+                    <p class="text-xl font-medium font-ibm">{{ exam.duration }} Minutes</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-list text-[#052FAD] text-2xl mb-2"></i>
+                    <p class="text-gray-600 font-light font-ibm">Total Questions</p>
+                    <p class="text-xl font-medium font-ibm">{{ exam.questions.all.count }} Questions</p>
+                </div>
+                {% comment %} <div class="text-center">
+                    <i class="fas fa-star text-[#052FAD] text-2xl mb-2"></i>
+                    <p class="text-gray-600 font-light font-ibm">Marking</p>
+                    <p class="text-xl font-medium font-ibm">+4 / -1</p>
+                </div> {% endcomment %}
+            </div>
+            
+            <!-- Instructions -->
+            <div class="bg-blue-50 border-l-4 border-[#052FAD] p-6 mb-6">
+                <h3 class="text-lg font-medium font-ibm text-gray-900 mb-3">Important Instructions:</h3>
+                <ul class="text-gray-700 font-light font-ibm space-y-2">
+                    <li>• Read each question carefully before selecting your answer</li>
+                    <li>• Once started, the countdown timer will begin automatically</li>
+                    <li>• You can navigate between questions using the sidebar</li>
+                    <li>• Make sure to submit your exam before time runs out</li>
+                    {% comment %} <li>• Each correct answer carries +4 marks, wrong answer -1 mark</li> {% endcomment %}
+                </ul>
+            </div>
+            
+            <!-- Start Button -->
+            <div class="text-center">
+                <form method='post' action='{% url "start_exam_attempt" %}'>
+                    {% csrf_token %}
+                    <input type='hidden' name='exam_uid' value='{{ exam.uid }}'>
+                    <button type='submit' class="inline-block bg-gradient-to-r from-[#052FAD] to-[#001F5C] text-white px-12 py-4 font-bold text-xl font-ibm hover:from-[#001F5C] hover:to-[#052FAD] transition-all duration-300 transform hover:scale-105 shadow-xl">
+                        <i class="fas fa-play mr-3"></i>Start Exam
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+<!-- Footer -->
+<footer class="bg-black text-white py-16">
+    <div class="max-w-7xl mx-auto px-6">
+        <!-- Header with IBM Logo and Language Selector -->
+        <div class="flex justify-between items-start mb-16">
+            <div class="text-white font-bold text-4xl tracking-wider font-ibm">ASPL</div>
+            <div class="relative">
+                <select class="bg-transparent border border-gray-600 text-white px-4 py-2 pr-8 appearance-none font-ibm">
+                    <option class='text-black'>Select Language</option>
+                    <option class='text-black'>English</option>
+                    <option class='text-black'>Spanish</option>
+                    <option class='text-black'>French</option>
+                    <option class='text-black'>German</option>
+                </select>
+                <svg class="absolute right-2 top-3 w-4 h-4 text-white pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Main Footer Content -->
+        <div class="grid grid-cols-4 gap-12 mb-16">
+            <!-- Column 1 -->
+            <div>
+                <h4 class="text-white font-medium mb-6 font-ibm">For high school students</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="{% url 'overview' %}" class="hover:text-blue-400 transition-colors font-ibm">Overview</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-400 transition-colors font-ibm">Explore learning</a></li>
+                    <li><a href="{% url 'digital_credentials' %}" class="hover:text-blue-400 transition-colors font-ibm">Digital credentials</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Try it before you register</a></li>
+                    </ul>
+                    
+                <h4 class="text-white font-medium mb-6 mt-8 font-ibm">For college students</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="{% url 'overview' %}" class="hover:text-blue-400 transition-colors font-ibm">Overview</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-400 transition-colors font-ibm">Course catalog</a></li>
+                </ul>
+            </div>
+            
+            <!-- Column 2 -->
+            <div>
+                <h4 class="text-white font-medium mb-6 font-ibm">For adult learners</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="{% url 'overview' %}" class="hover:text-blue-400 transition-colors font-ibm">Overview</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-400 transition-colors font-ibm">Explore learning</a></li>
+                    <li><a href="{% url 'digital_credentials' %}" class="hover:text-blue-400 transition-colors font-ibm">Digital credentials</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Try it before you register</a></li>
+                </ul>
+                
+                <h4 class="text-white font-medium mb-6 mt-8 font-ibm">For high school educators</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="{% url 'overview' %}" class="hover:text-blue-400 transition-colors font-ibm">Overview</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Teacher toolkit</a></li>
+                </ul>
+                
+                <h4 class="text-white font-medium mb-6 mt-8 font-ibm">For college educators</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="{% url 'overview' %}" class="hover:text-blue-400 transition-colors font-ibm">Overview</a></li>
+                    <li><a href="{% url 'course_list' %}" class="hover:text-blue-400 transition-colors font-ibm">Course catalog</a></li>
+                </ul>
+            </div>
+            
+            <!-- Column 3 -->
+            <div>
+                <h4 class="text-white font-medium mb-6 font-ibm">For organizations</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Supporting high school students</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Supporting college students</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition-colors font-ibm">Supporting adult learners</a></li>
+                </ul>
+            </div>
+            
+            <!-- Column 4 -->
+            <div>
+            <div class="flex flex-wrap gap-8 text-gray-400 text-sm">
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Contact</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Privacy</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Terms of use for students and educators</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Terms of use for adult learners</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Accessibility</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-ibm">Security and Standards</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Accessibility Button -->
+    {% comment %} <button class="fixed bottom-4 right-4 w-12 h-12 bg-blue-600 text-white flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors z-50">
+        <span class="text-sm font-bold font-ibm">A</span>
+        <span class="text-xs font-bold font-ibm ml-1">I</span>
+    </button> {% endcomment %}
+</footer>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+    
+    .font-ibm {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+    
+    select {
+        background-image: none;
+    }
+</style>

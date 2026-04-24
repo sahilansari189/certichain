@@ -1,0 +1,624 @@
+{% extends "base/base.html" %} {% block content %}
+{% include 'components/toast.html' with messages=messages %}
+
+<style>
+  :root {
+    --cds-interactive-01: #003366;
+    --cds-interactive-01-hover: lavender;
+    --cds-ui-01: #f4f4f4;
+    --cds-ui-02: #ffffff;
+    --cds-text-01: #161616;
+    --cds-text-02: #525252;
+    --cds-inverse-01: #161616;
+    --cds-inverse-text-01: #ffffff;
+    --skillbuild-blue: #001d6c; /* Dark Blue from Landing Page */
+    --skillbuild-teal: #005d5d;
+    --skillbuild-purple: #8a3ffc;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--cds-ui-02); /* White background for landing page */
+    color: var(--cds-text-01);
+  }
+
+  /* Helper Classes */
+  .container-fluid {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .container-fixed {
+    max-width: 1312px; /* IBM Grid Max Width */
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    background-image: url('/static/images/skillbuild_hero_bg.png'); /* Placeholder path, will need to move file */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 600px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .hero-desc {
+    font-size: 20px;
+    line-height: 1.4;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .btn-hero {
+    background-color: var(--cds-interactive-01);
+    color: white;
+    padding: 16px 64px 16px 16px;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-hero:hover {
+    background-color: var(--cds-interactive-01-hover);
+    color:black;
+  }
+
+  .btn-hero::after {
+    content: '→';
+    position: absolute;
+    right: 16px;
+    font-size: 20px;
+  }
+
+  /* Decorative Circle/Graphic Placeholder */
+  .hero-graphic {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  /* Value Props Section */
+  .value-props-section {
+    padding: 80px 0;
+    background-color: var(--cds-ui-02);
+  }
+
+  .section-heading {
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 48px;
+    color: var(--cds-text-01);
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .value-card {
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+    height: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .value-card:hover {
+    border-color: var(--cds-interactive-01);
+  }
+
+  .value-icon {
+    font-size: 32px;
+    color: var(--cds-interactive-01);
+    margin-bottom: 24px;
+  }
+
+  .value-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .value-desc {
+    font-size: 16px;
+    color: var(--cds-text-02);
+    line-height: 1.5;
+  }
+
+  /* Course Catalog Preview */
+  .catalog-section {
+    padding: 80px 0;
+    background-color: var(--cds-ui-01); /* Light Gray */
+  }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .course-card {
+    background: white;
+    border: 1px solid #e0e0e0; /* No border radius */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s;
+  }
+
+  .course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .course-image {
+    height: 160px;
+    background-color: var(--cds-text-01); /* Placeholder Dark Gray */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+  }
+
+  .course-content {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .course-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--cds-text-02);
+    margin-bottom: 8px;
+  }
+
+  .course-title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    flex-grow: 1;
+  }
+
+  .course-link {
+    color: var(--cds-interactive-01);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .course-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Digital Credentials Section */
+  .credentials-section {
+    background-image: url('/static/images/achievement.png'); /* Placeholder path, will need to move file */
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
+    background-color: var(--skillbuild-blue);
+    color: white;
+    text-align: center;
+  }
+
+  .credentials-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .credentials-title {
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .credentials-desc {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    opacity: 0.9;
+  }
+
+
+  /* Testimonials */
+  .testimonials-section {
+    padding: 80px 0;
+    background-color: var(--cds-ui-02);
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+  }
+
+  .testimonial-card {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .testimonial-quote {
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    color: var(--cds-text-01);
+  }
+
+  .testimonial-author {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .testimonial-role {
+    font-size: 14px;
+    color: var(--cds-text-02);
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 36px;
+    }
+    .hero-graphic {
+      display: none;
+    }
+    .testimonial-card {
+      flex-direction: column;
+    }
+  }
+</style>
+
+
+<!-- Hero Section -->
+<div class="hero-section">
+  <div class="container-fixed">
+    <div class="hero-content">
+      <h1 class="hero-title">Free courses, credentials, and career prep for students</h1>
+      <p class="hero-desc">Build the skills you need for the job you want. Access free courses in AI, Cybersecurity, Data Science, and more.</p>
+      <a href="{% url 'course_list' %}" class="btn-hero">Start learning</a>
+    </div>
+    <div class="hero-graphic"></div>
+  </div>
+</div>
+
+<!-- For Organizations (Top Priority) -->
+<div class="value-props-section" style="background-color: var(--cds-ui-02);">
+  <div class="container-fixed">
+    <h2 class="section-heading">About ASPL SkillVerse for Organizations</h2>
+    <p class="section-desc" style="margin-bottom: 32px; max-width: 800px;">
+      ASPL SkillVerse is a comprehensive talent development ecosystem designed to bridge the gap between education and industry. 
+      We empower organizations to build a future-ready workforce through custom learning paths, enterprise-grade analytics, and 
+      strategic skill gap analysis. Partner with us to drive innovation and community impact.
+    </p>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3 class="value-title">Workforce Development</h3>
+        <p class="value-desc">
+          Transform your organization with tailored upskilling programs. Access thousands of courses in AI, Data Science, and Cloud Computing 
+          to keep your team competitive in a rapidly evolving digital landscape.
+        </p>
+      </div>
+      <div class="value-card">
+        <h3 class="value-title">Community Impact</h3>
+        <p class="value-desc">
+          Join our mission to democratize education. We partner with non-profits and governments to provide underserved communities 
+          with free access to world-class learning resources and career opportunities.
+        </p>
+      </div>
+      <div class="value-card">
+        <h3 class="value-title">Enterprise Analytics</h3>
+        <p class="value-desc">
+          Gain actionable insights into your organization's learning progress. Our advanced dashboard tracks learner engagement, 
+          skill acquisition, and ROI, helping you make data-driven decisions.
+        </p>
+      </div>
+    </div>
+    <div style="margin-top: 40px;">
+        <a href="#" class="btn-hero" style="padding: 12px 32px; font-size: 14px;">Partner with ASPL SkillVerse</a>
+    </div>
+  </div>
+</div>
+
+<!-- For High School Students -->
+<div class="catalog-section" style="background-color: var(--cds-ui-01);">
+  <div class="container-fixed">
+    <h2 class="section-heading">For High School Students</h2>
+    <p class="section-desc" style="margin-bottom: 32px; max-width: 800px;">
+      It's never too early to start building your future. Explore exciting career paths in technology, gain future-ready skills, 
+      and enhance your college applications with real-world projects and certifications.
+    </p>
+    <div class="course-grid">
+      <div class="course-card">
+        <div class="course-image" style="background-color: #0043ce;">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">High School • Beginner</span>
+          <h3 class="course-title">Intro to AI & Robotics</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Discover how Artificial Intelligence works and build your first simple robot simulation. Perfect for beginners.
+          </p>
+          <a href="#" class="course-link">Explore AI <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #005d5d;">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">High School • Creative</span>
+          <h3 class="course-title">Web Design Basics</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Learn HTML and CSS to design and build your own personal website portfolio from scratch.
+          </p>
+          <a href="#" class="course-link">Explore Web <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #8a3ffc;">
+          <i class="fas fa-gamepad"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">High School • Fun</span>
+          <h3 class="course-title">Game Development</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Create your first 2D game using Python. Learn logic, physics, and game design principles.
+          </p>
+          <a href="#" class="course-link">Explore Games <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #da1e28;">
+          <i class="fas fa-user-secret"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">High School • Essential</span>
+          <h3 class="course-title">Cybersecurity 101</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Understand how to protect yourself online and learn the basics of ethical hacking and network defense.
+          </p>
+          <a href="#" class="course-link">Explore Security <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- For College Students -->
+<div class="value-props-section" style="background-color: var(--cds-ui-02);">
+  <div class="container-fixed">
+    <h2 class="section-heading">For College Students</h2>
+    <p class="section-desc" style="margin-bottom: 32px; max-width: 800px;">
+      Bridge the gap between academic theory and industry practice. Master in-demand tools like TensorFlow, AWS, and Docker 
+      to stand out in the job market and land your dream internship or full-time role.
+    </p>
+    <div class="course-grid">
+      <div class="course-card">
+        <div class="course-image" style="background-color: #0f62fe;">
+          <i class="fas fa-database"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">College • Professional Cert</span>
+          <h3 class="course-title">Data Science Professional Cert</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Master Python, SQL, and Data Visualization. Complete a capstone project to add to your portfolio.
+          </p>
+          <a href="#" class="course-link">View Certificate <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #198038;">
+          <i class="fas fa-cloud"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">College • Advanced</span>
+          <h3 class="course-title">Cloud Architecture</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Learn to design scalable and secure cloud solutions using AWS and Azure best practices.
+          </p>
+          <a href="#" class="course-link">View Course <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #8a3ffc;">
+          <i class="fas fa-brain"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">College • Trending</span>
+          <h3 class="course-title">Machine Learning with Python</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Dive deep into algorithms, regression, and neural networks using Scikit-Learn and PyTorch.
+          </p>
+          <a href="#" class="course-link">View Course <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #fa4d56;">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">College • Practical</span>
+          <h3 class="course-title">DevOps Methodologies</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Understand CI/CD pipelines, containerization with Docker, and orchestration with Kubernetes.
+          </p>
+          <a href="#" class="course-link">View Course <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- For Adult Learners -->
+<div class="catalog-section" style="background-color: var(--cds-ui-01);">
+  <div class="container-fixed">
+    <h2 class="section-heading">For Adult Learners</h2>
+    <p class="section-desc" style="margin-bottom: 32px; max-width: 800px;">
+      Ready for a career change or looking to advance in your current role? Our flexible, self-paced courses allow you to 
+      reskill and upskill on your own schedule, earning credentials that employers value.
+    </p>
+    <div class="course-grid">
+      <div class="course-card">
+        <div class="course-image" style="background-color: #002d9c;">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">Adult Learners • Business</span>
+          <h3 class="course-title">Project Management</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Learn Agile and Scrum methodologies to lead projects efficiently and deliver results on time.
+          </p>
+          <a href="#" class="course-link">Start Learning <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #005d5d;">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">Adult Learners • Data</span>
+          <h3 class="course-title">Data Analytics</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Make sense of big data. Learn to clean, analyze, and visualize data to drive business strategy.
+          </p>
+          <a href="#" class="course-link">Start Learning <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #a56eff;">
+          <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">Adult Learners • Marketing</span>
+          <h3 class="course-title">Digital Marketing</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Master SEO, social media strategy, and email marketing to grow your brand and reach new customers.
+          </p>
+          <a href="#" class="course-link">Start Learning <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="course-card">
+        <div class="course-image" style="background-color: #ee5396;">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <div class="course-content">
+          <span class="course-tag">Adult Learners • Soft Skills</span>
+          <h3 class="course-title">Leadership & Soft Skills</h3>
+          <p class="course-desc" style="font-size: 14px; color: var(--cds-text-02); margin-bottom: 16px;">
+            Develop emotional intelligence, communication, and negotiation skills essential for management roles.
+          </p>
+          <a href="#" class="course-link">Start Learning <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- For Educators -->
+<div class="value-props-section" style="background-color: var(--cds-ui-02);">
+  <div class="container-fixed">
+    <h2 class="section-heading">For Educators</h2>
+    <p class="section-desc" style="margin-bottom: 32px; max-width: 800px;">
+      Empower your students with the skills of tomorrow. Access a wealth of ready-to-use curriculum, automated grading tools, 
+      and professional development resources designed to make teaching technology easier and more effective.
+    </p>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3 class="value-title">Curriculum Resources</h3>
+        <p class="value-desc">
+          Download comprehensive lesson plans, slide decks, and hands-on labs aligned with industry standards and certification exams.
+        </p>
+      </div>
+      <div class="value-card">
+        <h3 class="value-title">Student Management</h3>
+        <p class="value-desc">
+          Effortlessly track student progress, assign courses, and view detailed performance reports through our intuitive Teacher Dashboard.
+        </p>
+      </div>
+      <div class="value-card">
+        <h3 class="value-title">Teacher Training</h3>
+        <p class="value-desc">
+          Stay ahead of the curve with our "Train the Trainer" programs. Earn professional development credits while learning new tech.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Digital Credentials Section -->
+<div class="credentials-section">
+  <div class="container-fixed">
+    <div class="credentials-content">
+      <h2 class="credentials-title">Showcase Your Achievements</h2>
+      <p class="credentials-desc">Earn digital badges for every course you complete. Share them on your resume and social media to stand out to employers.</p>
+      <a href="{% url 'digital_credentials' %}" class="btn-hero">View Credentials</a>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="testimonials-section">
+  <div class="container-fixed">
+    <h2 class="section-heading">Student Success Stories</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">"SkillBuild gave me the practical skills I needed to transition into a tech career. The badges helped me prove my knowledge to recruiters."</p>
+          <div class="testimonial-author">Sarah Jenkins</div>
+          <div class="testimonial-role">Junior Data Analyst</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">"The cybersecurity courses are amazing. I learned so much about network defense and ethical hacking that I use in my job every day."</p>
+          <div class="testimonial-author">Michael Chen</div>
+          <div class="testimonial-role">Security Specialist</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

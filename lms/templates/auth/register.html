@@ -1,0 +1,436 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+{% include 'components/toast.html' %}
+
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .diagonal-split {
+            clip-path: polygon(0 0, 60% 0, 45% 100%, 0% 100%);
+        }
+        
+        .social-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tabs-wrapper {
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+        
+        .tabs-container {
+            position: relative;
+            display: inline-flex;
+            gap: 2rem;
+        }
+        
+        .tab-link {
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: #6b7280;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tab-link:hover {
+            color: #1e40af;
+        }
+        
+        .tab-link.active {
+            color: #1e40af;
+            font-weight: 600;
+        }
+        
+        .tab-link::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #1e40af;
+            transition: width 0.3s ease;
+        }
+        
+        .tab-link.active::after {
+            width: 100%;
+        }
+        
+        .tab-link:hover::after {
+            width: 100%;
+            background-color: #3b82f6;
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .checkbox-custom {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .checkbox-custom:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        .checkbox-custom:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .input-error {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        }
+    </style>
+
+<div class="min-h-screen bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Left Section - Branding -->
+        <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 diagonal-split hidden lg:block">
+            <div class="absolute top-8 left-8">
+                <img src="{% static 'images/svlogo.png' %}" alt="SkillVerse Logo" class="h-16 w-auto">
+            </div>
+            
+            <div class="flex flex-col justify-center h-full px-16 text-white">
+                <h1 class="text-5xl font-bold leading-tight">
+                    Start<br>
+                    learning<br>
+                    <span class="text-cyan-400">with<br>
+                    SkillVerse</span>
+                </h1>
+            </div>
+        </div>
+        
+        <!-- Right Section - Register Form -->
+        <div class="w-full lg:w-1/2 flex items-start justify-center px-8 pt-16 pb-12">
+            <div class="w-full max-w-md">
+                <!-- Tabs -->
+                <div class="tabs-wrapper">
+                    <div class="flex justify-start">
+                        <div class="tabs-container">
+                            <a href="{% url 'register' %}" class="tab-link active">Register</a>
+                            <a href="{% url 'login' %}" class="tab-link">Sign in</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Login Buttons -->
+                {% comment %} <div class="space-y-3 mb-6">
+                    <button class="social-btn w-full flex items-center justify-center space-x-3 px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <i class="fab fa-google"></i>
+                        <span class="font-medium">Google</span>
+                    </button>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="social-btn flex items-center justify-center space-x-2 px-4 py-3 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            <i class="fab fa-linkedin text-blue-700"></i>
+                            <span class="font-medium text-gray-700">LinkedIn</span>
+                        </button>
+                        
+                        <button class="social-btn flex items-center justify-center space-x-2 px-4 py-3 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                            <i class="fab fa-github text-gray-900"></i>
+                            <span class="font-medium text-gray-700">GitHub</span>
+                        </button>
+                    </div>
+                    
+                    <button class="social-btn w-full flex items-center justify-center space-x-3 px-4 py-3 bg-blue-800 text-white rounded-md hover:bg-blue-900">
+                        <i class="fab fa-facebook-f"></i>
+                        <span class="font-medium">Facebook</span>
+                    </button>
+                </div>
+                
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-gray-50 text-gray-500">Or register with:</span>
+                    </div>
+                </div> {% endcomment %}
+                
+                <!-- Register Form -->
+                <form id="registerForm" method="post" class="space-y-4">
+                    {% csrf_token %}
+                    
+                    <!-- Full Name (combining first and last name) -->
+                    <div>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            name="full_name" 
+                            placeholder="Full name"
+                            class="input-field w-full px-4 py-3 border border-gray-300 rounded-md"
+                            required
+                        >
+                        <div class="error-message" id="fullNameError">Full name is required</div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Email"
+                            class="input-field w-full px-4 py-3 border border-gray-300 rounded-md"
+                            required
+                        >
+                        <div class="error-message" id="emailError">Valid email address is required</div>
+                    </div>
+                    
+                    <!-- Public Username -->
+                    <div>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            placeholder="Public username"
+                            class="input-field w-full px-4 py-3 border border-gray-300 rounded-md"
+                            required
+                        >
+                        <div class="error-message" id="usernameError">Username is required</div>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Password"
+                            class="input-field w-full px-4 py-3 border border-gray-300 rounded-md pr-12"
+                            required
+                        >
+                        <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <i class="far fa-eye" id="toggleIcon"></i>
+                        </button>
+                        <div class="error-message" id="passwordError">Password is required</div>
+                    </div>
+                    
+                    <!-- Confirm Password -->
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirm_password" 
+                            placeholder="Confirm Password"
+                            class="input-field w-full px-4 py-3 border border-gray-300 rounded-md pr-12"
+                            required
+                        >
+                        <button type="button" onclick="toggleConfirmPassword()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <i class="far fa-eye" id="toggleConfirmIcon"></i>
+                        </button>
+                        <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                    </div>
+                    
+                    <!-- Terms Checkbox -->
+                    {% comment %} <div class="flex items-start space-x-2">
+                        <input 
+                            type="checkbox" 
+                            id="terms" 
+                            name="terms" 
+                            class="checkbox-custom mt-1"
+                            required
+                        >
+                        <label for="terms" class="text-sm text-gray-600 leading-tight">
+                            I agree that SkillVerse may send me marketing messages.
+                        </label>
+                    </div> {% endcomment %}
+                    
+                    <!-- Privacy Checkbox -->
+                    {% comment %} <div class="flex items-start space-x-2">
+                        <input 
+                            type="checkbox" 
+                            id="privacy" 
+                            name="privacy" 
+                            class="checkbox-custom mt-1"
+                            required
+                        >
+                        <label for="privacy" class="text-sm text-gray-600 leading-tight">
+                            My name and email may be collected by SkillVerse for support and billing materials. For full details, please refer to the 
+                            <a href="#" class="text-blue-600 hover:underline">Express Consent Details</a> page.
+                        </label>
+                    </div>
+                     {% endcomment %}
+                    <!-- Hidden fields for Django compatibility -->
+                    <input type="hidden" id="firstName" name="first_name" value="">
+                    <input type="hidden" id="lastName" name="last_name" value="">
+                    
+                    <!-- Create Account Button -->
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 text-white py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
+                    >
+                        Create an account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        function toggleConfirmPassword() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+            
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                toggleConfirmIcon.classList.remove('fa-eye');
+                toggleConfirmIcon.classList.add('fa-eye-slash');
+            } else {
+                confirmPasswordInput.type = 'password';
+                toggleConfirmIcon.classList.remove('fa-eye-slash');
+                toggleConfirmIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const fields = {
+                fullName: document.getElementById('fullName'),
+                email: document.getElementById('email'),
+                username: document.getElementById('username'),
+                password: document.getElementById('password'),
+                confirmPassword: document.getElementById('confirmPassword')
+            };
+
+            function showError(fieldName, message) {
+                const field = fields[fieldName];
+                const errorDiv = document.getElementById(fieldName + 'Error');
+                
+                field.classList.add('input-error');
+                errorDiv.textContent = message;
+                errorDiv.classList.add('show');
+            }
+
+            function hideError(fieldName) {
+                const field = fields[fieldName];
+                const errorDiv = document.getElementById(fieldName + 'Error');
+                
+                field.classList.remove('input-error');
+                errorDiv.classList.remove('show');
+            }
+
+            function validateField(fieldName) {
+                const field = fields[fieldName];
+                const value = field.value.trim();
+
+                if (!value) {
+                    showError(fieldName, field.getAttribute('data-error') || `${fieldName.replace(/([A-Z])/g, ' $1').toLowerCase()} is required`);
+                    return false;
+                }
+
+                if (fieldName === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    showError(fieldName, 'Please enter a valid email address');
+                    return false;
+                }
+                
+                if (fieldName === 'confirmPassword' && value !== fields.password.value) {
+                    showError(fieldName, 'Passwords do not match');
+                    return false;
+                }
+
+                hideError(fieldName);
+                return true;
+            }
+
+            function validateForm() {
+                let isValid = true;
+                
+                Object.keys(fields).forEach(fieldName => {
+                    if (!validateField(fieldName)) {
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            // Add event listeners
+            Object.keys(fields).forEach(fieldName => {
+                fields[fieldName].addEventListener('blur', () => validateField(fieldName));
+                fields[fieldName].addEventListener('input', () => {
+                    hideError(fieldName);
+                });
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Split full name into first and last name for Django backend
+                const fullName = document.getElementById('fullName').value.trim();
+                const nameParts = fullName.split(' ');
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+                
+                document.getElementById('firstName').value = firstName;
+                document.getElementById('lastName').value = lastName;
+                
+                if (validateForm()) {
+                    // Form is valid, submit it
+                    this.submit();
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock content %}

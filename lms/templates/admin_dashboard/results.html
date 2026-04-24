@@ -1,0 +1,318 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}Results Management - Admin Dashboard{% endblock %}
+{% block page_title %}Results Management{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- Results Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100">
+                    <i class="fas fa-chart-bar text-2xl text-[#052FAD]"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Attempts</p>
+                    <p class="text-2xl font-bold text-gray-900">3,892</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100">
+                    <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Pass Rate</p>
+                    <p class="text-2xl font-bold text-gray-900">85.2%</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100">
+                    <i class="fas fa-calculator text-2xl text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Average Score</p>
+                    <p class="text-2xl font-bold text-gray-900">78.5%</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-purple-100">
+                    <i class="fas fa-medal text-2xl text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Top Performers</p>
+                    <p class="text-2xl font-bold text-gray-900">234</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filter Bar -->
+    <div class="bg-white p-6 shadow-lg">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input type="text" placeholder="Search by student name or exam..." class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+            </div>
+            <select class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                <option>All Programs</option>
+                <option>Data Science</option>
+                <option>Web Development</option>
+                <option>Machine Learning</option>
+            </select>
+            <select class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                <option>All Results</option>
+                <option>Passed</option>
+                <option>Failed</option>
+                <option>In Progress</option>
+            </select>
+            <button class="bg-[#052FAD] text-white px-6 py-3 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                <i class="fas fa-download mr-2"></i>Export
+            </button>
+        </div>
+    </div>
+    
+    <!-- Results Table -->
+    <div class="bg-white shadow-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Exam Results</h3>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exam</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-[#052FAD] text-white flex items-center justify-center font-medium mr-4">
+                                    JD
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">John Doe</div>
+                                    <div class="text-sm text-gray-500">john.doe@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Python Programming Fundamentals</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-600">Data Science</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-bold text-green-600">85%</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                Passed
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 15, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">View Details</button>
+                            <button class="text-green-600 hover:text-green-800">Issue Certificate</button>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-purple-600 text-white flex items-center justify-center font-medium mr-4">
+                                    SW
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Sarah Wilson</div>
+                                    <div class="text-sm text-gray-500">sarah.wilson@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Web Development Fundamentals</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-600">Full Stack</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-bold text-green-600">92%</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                Passed
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 14, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">View Details</button>
+                            <button class="text-green-600 hover:text-green-800">Issue Certificate</button>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-red-600 text-white flex items-center justify-center font-medium mr-4">
+                                    MJ
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Mike Johnson</div>
+                                    <div class="text-sm text-gray-500">mike.johnson@email.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">Database Management</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-600">Data Science</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-bold text-red-600">45%</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-red-100 text-red-800">
+                                Failed
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            Dec 13, 2024
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-[#052FAD] hover:text-[#001F5C] mr-3">View Details</button>
+                            <button class="text-blue-600 hover:text-blue-800">Allow Retake</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Analytics Dashboard -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Score Distribution -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Score Distribution</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-20 text-sm text-gray-600">90-100%</div>
+                        <div class="flex-1 bg-gray-200 h-6 mx-3">
+                            <div class="bg-green-500 h-6 flex items-center justify-end pr-2" style="width: 25%">
+                                <span class="text-xs text-white font-medium">234</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-20 text-sm text-gray-600">80-89%</div>
+                        <div class="flex-1 bg-gray-200 h-6 mx-3">
+                            <div class="bg-blue-500 h-6 flex items-center justify-end pr-2" style="width: 35%">
+                                <span class="text-xs text-white font-medium">456</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-20 text-sm text-gray-600">70-79%</div>
+                        <div class="flex-1 bg-gray-200 h-6 mx-3">
+                            <div class="bg-yellow-500 h-6 flex items-center justify-end pr-2" style="width: 28%">
+                                <span class="text-xs text-white font-medium">298</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-20 text-sm text-gray-600">60-69%</div>
+                        <div class="flex-1 bg-gray-200 h-6 mx-3">
+                            <div class="bg-orange-500 h-6 flex items-center justify-end pr-2" style="width: 15%">
+                                <span class="text-xs text-white font-medium">156</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-20 text-sm text-gray-600">Below 60%</div>
+                        <div class="flex-1 bg-gray-200 h-6 mx-3">
+                            <div class="bg-red-500 h-6 flex items-center justify-end pr-2" style="width: 12%">
+                                <span class="text-xs text-white font-medium">89</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Performers -->
+        <div class="bg-white shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Top Performers This Month</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-yellow-50 border-l-4 border-yellow-400">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-yellow-400 text-white flex items-center justify-center font-bold text-sm mr-3">
+                                1
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">Sarah Wilson</p>
+                                <p class="text-sm text-gray-600">Web Development</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-yellow-600">98%</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-gray-50 border-l-4 border-gray-400">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-400 text-white flex items-center justify-center font-bold text-sm mr-3">
+                                2
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">John Doe</p>
+                                <p class="text-sm text-gray-600">Data Science</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-gray-600">95%</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-orange-50 border-l-4 border-orange-400">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-orange-400 text-white flex items-center justify-center font-bold text-sm mr-3">
+                                3
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">Emily Chen</p>
+                                <p class="text-sm text-gray-600">Machine Learning</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-orange-600">93%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

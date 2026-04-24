@@ -1,0 +1,274 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}Exam Management - Admin Dashboard{% endblock %}
+{% block page_title %}Exam Management{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- Exam Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100">
+                    <i class="fas fa-clipboard-list text-2xl text-[#052FAD]"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Exams</p>
+                    <p class="text-2xl font-bold text-gray-900">45</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100">
+                    <i class="fas fa-play text-2xl text-green-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Active Exams</p>
+                    <p class="text-2xl font-bold text-gray-900">32</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100">
+                    <i class="fas fa-pause text-2xl text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Draft Exams</p>
+                    <p class="text-2xl font-bold text-gray-900">8</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-purple-100">
+                    <i class="fas fa-chart-line text-2xl text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Attempts</p>
+                    <p class="text-2xl font-bold text-gray-900">3,892</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions Bar -->
+    <div class="bg-white p-6 shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex gap-4">
+                <button class="bg-[#052FAD] text-white px-6 py-3 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                    <i class="fas fa-plus mr-2"></i>Create Exam
+                </button>
+                <button class="bg-white border-2 border-[#052FAD] text-[#052FAD] px-6 py-3 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                    <i class="fas fa-upload mr-2"></i>Import Questions
+                </button>
+                <button class="bg-white border-2 border-gray-300 text-gray-700 px-6 py-3 font-medium hover:bg-gray-50 transition-colors duration-300">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+            </div>
+            
+            <div class="flex gap-4">
+                <input type="text" placeholder="Search exams..." class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                <select class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                    <option>All Programs</option>
+                    <option>Data Science</option>
+                    <option>Web Development</option>
+                    <option>Machine Learning</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exams Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Exam Card 1 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Python Programming Fundamentals</h3>
+                <p class="text-gray-600 mb-4">Data Science Program</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-question-circle mr-2 text-[#052FAD]"></i>
+                        25 Questions
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clock mr-2 text-[#052FAD]"></i>
+                        60 minutes
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        156 attempts
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        View Details
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exam Card 2 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Draft
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Data Analysis with Pandas</h3>
+                <p class="text-gray-600 mb-4">Data Science Program</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-question-circle mr-2 text-[#052FAD]"></i>
+                        30 Questions
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clock mr-2 text-[#052FAD]"></i>
+                        90 minutes
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        0 attempts
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        Publish
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exam Card 3 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Machine Learning Basics</h3>
+                <p class="text-gray-600 mb-4">AI/ML Program</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-question-circle mr-2 text-[#052FAD]"></i>
+                        35 Questions
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clock mr-2 text-[#052FAD]"></i>
+                        90 minutes
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        89 attempts
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        View Details
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Recent Exam Activity</h3>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                <div class="flex items-center p-4 bg-gray-50">
+                    <div class="w-10 h-10 bg-green-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-plus text-green-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">New exam created</p>
+                        <p class="text-sm text-gray-600">Web Development Fundamentals exam added to Full Stack Program</p>
+                    </div>
+                    <span class="text-sm text-gray-500">2 hours ago</span>
+                </div>
+                
+                <div class="flex items-center p-4 bg-gray-50">
+                    <div class="w-10 h-10 bg-blue-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-edit text-blue-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">Exam updated</p>
+                        <p class="text-sm text-gray-600">Python Programming Fundamentals - 5 questions modified</p>
+                    </div>
+                    <span class="text-sm text-gray-500">4 hours ago</span>
+                </div>
+                
+                <div class="flex items-center p-4 bg-gray-50">
+                    <div class="w-10 h-10 bg-yellow-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-eye text-yellow-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">High activity detected</p>
+                        <p class="text-sm text-gray-600">Machine Learning Basics exam - 25 new attempts today</p>
+                    </div>
+                    <span class="text-sm text-gray-500">6 hours ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "learning/course_dashboard_home.html" %}
+{% block sub_course_dashboard %}            
+{% load learning_tags %}
+<h1 class="course-title">{{ course.title }}</h1>
+        <div class="main-content">
+            <div class="left-section">
+                <div class="section-header">
+                    <h2 class="section-title">Pick up where you left off</h2>
+                    
+                    {% if modules and modules.0.lessons.all.count %}
+                        <button onclick='window.location.href="{% url "learning_modules" course.slug %}?l={{ resume }}"' class="resume-btn">{% if enrollment.started %} Resume course {% else %} Start course {% endif %}</button>
+                    {% else %}
+                        <button disabled class="disabled resume-btn">No modules yet</button>
+                    {% endif %}
+                </div>
+                
+                <div class="welcome-card">
+                    <h3 class="welcome-title">Welcome to {{ course.title }}!</h3>
+                    <div id="course-box">
+                        <p class="welcome-text" id="course-description">
+                            {{ course.description|safe|default:'' }}
+                        </p>
+
+                        <div class="card-actions">
+                            <button class="btn-outline" id="dismiss-btn">Dismiss</button>
+                            <button class="btn-outline" id="show-more-btn">Show More</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="expand-btn" onclick="expandAll()">Expand all</button>
+                
+                <div class="course-modules">
+                    {% for module in modules %}
+                    <div class="module-wrapper">
+                        <div class="module-item" onclick="toggleModule(this)">
+                            {% if module|is_module_completed:enrollment %}
+                                <div class="module-icon"><i class="fas fa-check-circle"></i></div>
+                            {% else %}
+                                <div class="module-icon inactive"><i class="far fa-circle"></i></div>
+                            {% endif %}
+                            <div class="module-title">{{ module.title }}</div>
+                            <div class="module-expand">+</div>
+                        </div>
+                        <div class="module-content">
+                            {% for lesson in module.lessons.all %}
+                            <a href='{% url "learning_modules" course.slug %}?l={{ lesson.uid }}' class="module-sub-item "><i class="{% if lesson|is_lesson_completed:enrollment %}fas fa-check-circle {% else %}far fa-circle inactive{% endif %} sub-item-icon "></i>{{ lesson.title }}</a>
+                            {% endfor %}
+                            {% comment %} <div class="module-sub-item"><i class="fas fa-check-circle sub-item-icon"></i>Getting Started</div> {% endcomment %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <script>
+                function toggleModule(element) {
+                    const content = element.nextElementSibling;
+                    const expandIcon = element.querySelector('.module-expand');
+                    
+                    if (content.classList.contains('expanded')) {
+                        content.classList.remove('expanded');
+                        expandIcon.classList.remove('expanded');
+                        expandIcon.textContent = '+';
+                    } else {
+                        content.classList.add('expanded');
+                        expandIcon.classList.add('expanded');
+                        expandIcon.textContent = '+';
+                    }
+                }
+                
+                function expandAll() {
+                    const allContents = document.querySelectorAll('.module-content');
+                    const allExpandIcons = document.querySelectorAll('.module-expand');
+                    const expandBtn = document.querySelector('.expand-btn');
+                    
+                    const isExpanded = allContents[0].classList.contains('expanded');
+                    
+                    if (isExpanded) {
+                        allContents.forEach(content => {
+                            content.classList.remove('expanded');
+                        });
+                        allExpandIcons.forEach(icon => {
+                            icon.classList.remove('expanded');
+                            icon.textContent = '+';
+                        });
+                        expandBtn.textContent = 'Expand all';
+                    } else {
+                        allContents.forEach(content => {
+                            content.classList.add('expanded');
+                        });
+                        allExpandIcons.forEach(icon => {
+                            icon.classList.add('expanded');
+                            icon.textContent = '+';
+                        });
+                        expandBtn.textContent = 'Collapse all';
+                    }
+                }
+                
+                function selectGoal(element) {
+                    document.querySelectorAll('.goal-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    element.classList.add('selected');
+                    element.querySelector('input[type="radio"]').checked = true;
+                }
+                
+                function toggleReminder(element) {
+                    const isGoalSelected = document.querySelector('.goal-option.selected');
+                    if (isGoalSelected) {
+                        element.classList.toggle('active');
+                    }
+                }
+                </script>
+            </div>
+            
+            <div class="right-section">
+                <div class="goal-section">
+                    <h3 class="goal-title">Set a weekly learning goal</h3>
+                    <p class="goal-subtitle">Setting a goal motivates you to finish the course. You can always change it later.</p>
+                    
+                    <div class="goal-options">
+                        <div class="goal-option" onclick="selectGoal(this)">
+                            <input type="radio" name="goal" value="casual">
+                            <div class="goal-icon"><i class="fas fa-book"></i></div>
+                            <div class="goal-label">Casual</div>
+                            <div class="goal-desc">1 day a week</div>
+                        </div>
+                        <div class="goal-option" onclick="selectGoal(this)">
+                            <input type="radio" name="goal" value="regular">
+                            <div class="goal-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="goal-label">Regular</div>
+                            <div class="goal-desc">3 days a week</div>
+                        </div>
+                        <div class="goal-option" onclick="selectGoal(this)">
+                            <input type="radio" name="goal" value="intense">
+                            <div class="goal-icon"><i class="fas fa-fire"></i></div>
+                            <div class="goal-label">Intense</div>
+                            <div class="goal-desc">5 days a week</div>
+                        </div>
+                    </div>
+                    
+                    <div class="reminder-toggle">
+                        <div class="toggle-switch" onclick="toggleReminder(this)">
+                            <div class="toggle-slider"></div>
+                        </div>
+                        <span>Set a goal reminder</span>
+                    </div>
+                </div>
+                
+                <div class="tools-section">
+                    <h3 class="tools-title">Course Tools</h3>
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-bookmark tool-icon"></i>
+                        Bookmarks
+                    </a>
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-bell tool-icon"></i>
+                        Updates
+                    </a>
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-route tool-icon"></i>
+                        Launch tour
+                    </a>
+                </div>
+                
+                {% comment %} <div class="handouts-section">
+                    <h3 class="handouts-title">Course Handouts</h3>
+                    <a href="#" class="handout-link">Python Cheat Sheet: The Basics</a>
+                </div> {% endcomment %}
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const description = document.getElementById("course-description");
+                const courseBox = document.getElementById("course-box");
+                const dismissBtn = document.getElementById("dismiss-btn");
+                const showMoreBtn = document.getElementById("show-more-btn");
+
+                // 1. Dismiss = hide entire box
+                dismissBtn.addEventListener("click", function () {
+                    courseBox.style.display = "none";
+                });
+
+                // 2. Show More / Show Less toggle
+                let expanded = false;
+                const maxHeight = "200px"; // collapsed height
+
+                // Initial collapsed style
+                description.style.maxHeight = maxHeight;
+                description.style.overflow = "hidden";
+
+                showMoreBtn.addEventListener("click", function () {
+                    if (!expanded) {
+                        description.style.maxHeight = "none";
+                        showMoreBtn.textContent = "Show Less";
+                        expanded = true;
+                    } else {
+                        description.style.maxHeight = maxHeight;
+                        showMoreBtn.textContent = "Show More";
+                        expanded = false;
+                    }
+                });
+            });
+        </script>
+
+        {% endblock sub_course_dashboard %}

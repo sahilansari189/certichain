@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillVerse - Empowering Students Through Skills & Certifications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/icon.png' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+        .font-ibm { font-family: 'IBM Plex Sans', sans-serif; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ibm-blue': '#0f62fe',
+                        'ibm-dark': '#161616',
+                        'ibm-gray': '#525252',
+                        'ibm-light-blue': '#4589ff',
+                        'ibm-bg': '#f4f4f4'
+                    },
+                    fontFamily: {
+                        'ibm': ['IBM Plex Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white text-ibm-dark font-ibm antialiased">
+{% include "components/header.html" %}
+{% block content %}
+{% endblock content %}    
+ {% include "components/footer.html" %}
+</body>
+</html>

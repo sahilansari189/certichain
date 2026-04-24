@@ -1,0 +1,231 @@
+{% extends "base/base.html" %}
+{% block content %}
+{% include 'components/toast.html' %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+    
+    .font-ibm {
+        font-family: 'IBM Plex Sans', sans-serif;
+    }
+    
+    .exam-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .exam-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .search-bar {
+        transition: all 0.3s ease;
+    }
+    
+    .search-bar:focus {
+        border-color: #052FAD;
+        box-shadow: 0 0 0 3px rgba(5, 47, 173, 0.1);
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 9999px;
+    }
+</style>
+
+<section class="min-h-screen bg-gray-50 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-light text-gray-900 font-ibm mb-4">Available Exams</h1>
+            <p class="text-xl text-gray-600 font-light font-ibm">Choose your exam and demonstrate your skills</p>
+        </div>
+        
+        <!-- Search & Filter -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" placeholder="Search exams..." class="search-bar w-full px-4 py-3 border border-gray-300 font-light font-ibm focus:outline-none">
+                </div>
+                <select class="px-4 py-3 border border-gray-300 font-light font-ibm focus:outline-none focus:border-[#052FAD]">
+                    <option>All Programs</option>
+                    {% for program in programs %}
+                    <option>{{ program.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <!-- Exam Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            {% for exam in exams %}
+                <div class="exam-card bg-white p-6 shadow-lg">
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium text-[#052FAD] font-ibm mb-2">Python Programming Fundamentals</h3>
+                    <p class="text-gray-500 font-light font-ibm mb-4">Data Science Program</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        {% comment %} <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-calendar mr-3 text-[#052FAD]"></i>
+                            <span>15-12-2024</span>
+                        </div> {% endcomment %}
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-clock mr-3 text-[#052FAD]"></i>
+                            <span>{{ exam.duration }} mins</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-question-circle mr-3 text-[#052FAD]"></i>
+                            <span>{{ exam.questions.all.count }} Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="badge bg-blue-100 text-blue-800 font-medium font-ibm">{{ exam.program.name }}</span>
+                        {% comment %} <span class="badge bg-red-100 text-red-800 font-medium font-ibm">Negative Marking</span> {% endcomment %}
+                    </div>
+                </div>
+                
+                <a href="{% url 'exam_start' exam.uid %}" class="block w-full bg-gradient-to-r from-[#052FAD] to-[#001F5C] text-white text-center py-3 font-medium font-ibm hover:from-[#001F5C] hover:to-[#052FAD] transition-all duration-300 transform hover:scale-105">
+                    Take Exam
+                </a>
+            </div>
+            {% endfor %}
+            
+            {% comment %} <!-- Exam Card 1 -->
+            <div class="exam-card bg-white p-6 shadow-lg">
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium text-[#052FAD] font-ibm mb-2">Python Programming Fundamentals</h3>
+                    <p class="text-gray-500 font-light font-ibm mb-4">Data Science Program</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-calendar mr-3 text-[#052FAD]"></i>
+                            <span>15-12-2024</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-clock mr-3 text-[#052FAD]"></i>
+                            <span>10:00 AM - 11:00 AM (60 mins)</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-question-circle mr-3 text-[#052FAD]"></i>
+                            <span>25 Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="badge bg-blue-100 text-blue-800 font-medium font-ibm">MCQ Only</span>
+                        <span class="badge bg-red-100 text-red-800 font-medium font-ibm">Negative Marking</span>
+                    </div>
+                </div>
+                
+                <a href="{% url 'exam_start' %}" class="block w-full bg-gradient-to-r from-[#052FAD] to-[#001F5C] text-white text-center py-3 font-medium font-ibm hover:from-[#001F5C] hover:to-[#052FAD] transition-all duration-300 transform hover:scale-105">
+                    Take Exam
+                </a>
+            </div>
+            
+            <!-- Exam Card 2 -->
+            <div class="exam-card bg-white p-6 shadow-lg">
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium text-[#052FAD] font-ibm mb-2">Data Analysis with Pandas</h3>
+                    <p class="text-gray-500 font-light font-ibm mb-4">Data Science Program</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-calendar mr-3 text-[#052FAD]"></i>
+                            <span>18-12-2024</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-clock mr-3 text-[#052FAD]"></i>
+                            <span>02:00 PM - 03:30 PM (90 mins)</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-question-circle mr-3 text-[#052FAD]"></i>
+                            <span>30 Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="badge bg-blue-100 text-blue-800 font-medium font-ibm">MCQ Only</span>
+                        <span class="badge bg-green-100 text-green-800 font-medium font-ibm">No Negative Marking</span>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-gray-300 text-gray-500 py-3 font-medium font-ibm cursor-not-allowed">
+                    Coming Soon
+                </button>
+            </div>
+            
+            <!-- Exam Card 3 -->
+            <div class="exam-card bg-white p-6 shadow-lg">
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium text-[#052FAD] font-ibm mb-2">Machine Learning Basics</h3>
+                    <p class="text-gray-500 font-light font-ibm mb-4">AI/ML Program</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-calendar mr-3 text-[#052FAD]"></i>
+                            <span>22-12-2024</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-clock mr-3 text-[#052FAD]"></i>
+                            <span>11:00 AM - 12:30 PM (90 mins)</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-question-circle mr-3 text-[#052FAD]"></i>
+                            <span>35 Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="badge bg-purple-100 text-purple-800 font-medium font-ibm">Mixed Format</span>
+                        <span class="badge bg-red-100 text-red-800 font-medium font-ibm">Negative Marking</span>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-gray-300 text-gray-500 py-3 font-medium font-ibm cursor-not-allowed">
+                    Coming Soon
+                </button>
+            </div>
+            
+            <!-- Exam Card 4 -->
+            <div class="exam-card bg-white p-6 shadow-lg">
+                <div class="mb-6">
+                    <h3 class="text-xl font-medium text-[#052FAD] font-ibm mb-2">Web Development Fundamentals</h3>
+                    <p class="text-gray-500 font-light font-ibm mb-4">Full Stack Program</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-calendar mr-3 text-[#052FAD]"></i>
+                            <span>25-12-2024</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-clock mr-3 text-[#052FAD]"></i>
+                            <span>09:00 AM - 10:30 AM (90 mins)</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-light font-ibm">
+                            <i class="fas fa-question-circle mr-3 text-[#052FAD]"></i>
+                            <span>40 Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="badge bg-blue-100 text-blue-800 font-medium font-ibm">MCQ Only</span>
+                        <span class="badge bg-green-100 text-green-800 font-medium font-ibm">No Negative Marking</span>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-gray-300 text-gray-500 py-3 font-medium font-ibm cursor-not-allowed">
+                    Coming Soon
+                </button>
+            </div> {% endcomment %}
+            
+        </div>
+        
+        {% include "components/paginator.html" with page_obj=exams %} 
+    </div>
+</section>
+
+{% endblock %}

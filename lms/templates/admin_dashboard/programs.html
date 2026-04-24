@@ -1,0 +1,331 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}Program Management - Admin Dashboard{% endblock %}
+{% block page_title %}Program Management{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- Program Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-100">
+                    <i class="fas fa-book text-2xl text-[#052FAD]"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Programs</p>
+                    <p class="text-2xl font-bold text-gray-900">12</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-100">
+                    <i class="fas fa-play text-2xl text-green-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Active Programs</p>
+                    <p class="text-2xl font-bold text-gray-900">10</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-yellow-100">
+                    <i class="fas fa-users text-2xl text-yellow-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Total Students</p>
+                    <p class="text-2xl font-bold text-gray-900">1,247</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 shadow-lg">
+            <div class="flex items-center">
+                <div class="p-3 bg-purple-100">
+                    <i class="fas fa-certificate text-2xl text-purple-600"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-gray-600">Certificates Issued</p>
+                    <p class="text-2xl font-bold text-gray-900">892</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions Bar -->
+    <div class="bg-white p-6 shadow-lg">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex gap-4">
+                <button class="bg-[#052FAD] text-white px-6 py-3 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                    <i class="fas fa-plus mr-2"></i>Create Program
+                </button>
+                <button class="bg-white border-2 border-[#052FAD] text-[#052FAD] px-6 py-3 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                    <i class="fas fa-copy mr-2"></i>Duplicate Program
+                </button>
+                <button class="bg-white border-2 border-gray-300 text-gray-700 px-6 py-3 font-medium hover:bg-gray-50 transition-colors duration-300">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+            </div>
+            
+            <div class="flex gap-4">
+                <input type="text" placeholder="Search programs..." class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                <select class="px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                    <option>All Categories</option>
+                    <option>Technology</option>
+                    <option>Business</option>
+                    <option>Design</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Programs Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Program Card 1 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="w-full h-32 bg-gradient-to-r from-[#052FAD] to-[#001F5C] mb-4 flex items-center justify-center">
+                    <i class="fas fa-database text-white text-3xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Data Science Program</h3>
+                <p class="text-gray-600 mb-4">Comprehensive data science curriculum covering Python, ML, and analytics</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clipboard-list mr-2 text-[#052FAD]"></i>
+                        12 Exams
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        456 Students
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-certificate mr-2 text-[#052FAD]"></i>
+                        234 Certificates
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        View Details
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Program Card 2 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="w-full h-32 bg-gradient-to-r from-green-500 to-blue-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-code text-white text-3xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Web Development Program</h3>
+                <p class="text-gray-600 mb-4">Full-stack web development with modern frameworks and technologies</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clipboard-list mr-2 text-[#052FAD]"></i>
+                        15 Exams
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        389 Students
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-certificate mr-2 text-[#052FAD]"></i>
+                        198 Certificates
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        View Details
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Program Card 3 -->
+        <div class="bg-white shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Draft
+                    </span>
+                    <div class="flex space-x-2">
+                        <button class="text-gray-400 hover:text-[#052FAD]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="w-full h-32 bg-gradient-to-r from-purple-500 to-pink-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-brain text-white text-3xl"></i>
+                </div>
+                
+                <h3 class="text-xl font-medium text-[#052FAD] mb-2">Machine Learning Program</h3>
+                <p class="text-gray-600 mb-4">Advanced ML algorithms, deep learning, and AI applications</p>
+                
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-clipboard-list mr-2 text-[#052FAD]"></i>
+                        8 Exams
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-users mr-2 text-[#052FAD]"></i>
+                        234 Students
+                    </div>
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-certificate mr-2 text-[#052FAD]"></i>
+                        89 Certificates
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button class="flex-1 bg-[#052FAD] text-white py-2 px-4 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+                        Publish
+                    </button>
+                    <button class="flex-1 bg-white border border-[#052FAD] text-[#052FAD] py-2 px-4 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Program Performance -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Program Performance</h3>
+        </div>
+        <div class="p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Program</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Students</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Completion Rate</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Avg Score</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Certificates</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-900">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-4 px-4">
+                                <div class="font-medium text-gray-900">Data Science Program</div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">456</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 h-2 mr-2">
+                                        <div class="bg-green-500 h-2" style="width: 85%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">85%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">78.5%</td>
+                            <td class="py-4 px-4 text-gray-600">234</td>
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4">
+                                <div class="font-medium text-gray-900">Web Development Program</div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">389</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 h-2 mr-2">
+                                        <div class="bg-blue-500 h-2" style="width: 92%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">92%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">82.1%</td>
+                            <td class="py-4 px-4 text-gray-600">198</td>
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-4">
+                                <div class="font-medium text-gray-900">Machine Learning Program</div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">234</td>
+                            <td class="py-4 px-4">
+                                <div class="flex items-center">
+                                    <div class="w-16 bg-gray-200 h-2 mr-2">
+                                        <div class="bg-yellow-500 h-2" style="width: 68%"></div>
+                                    </div>
+                                    <span class="text-sm text-gray-600">68%</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 text-gray-600">75.3%</td>
+                            <td class="py-4 px-4 text-gray-600">89</td>
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Draft
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

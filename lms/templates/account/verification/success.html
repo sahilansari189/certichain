@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .diagonal-split {
+        clip-path: polygon(0 0, 60% 0, 45% 100%, 0% 100%);
+    }
+</style>
+
+<div class="min-h-screen bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Left Section - Branding -->
+        <div class="relative w-full lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 diagonal-split hidden lg:block">
+            <div class="absolute top-8 left-8">
+                <img src="{% static 'images/svlogo.png' %}" alt="SkillVerse Logo" class="h-16 w-auto">
+            </div>
+            
+            <div class="flex flex-col justify-center h-full px-16 text-white">
+                <h1 class="text-5xl font-bold leading-tight">
+                    Start<br>
+                    learning<br>
+                    <span class="text-cyan-400">with<br>
+                    SkillVerse</span>
+                </h1>
+            </div>
+        </div>
+        
+        <!-- Right Section - Success Message -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center px-8 py-12">
+            <div class="w-full max-w-md text-center">
+                <!-- Success Icon -->
+                <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
+                    <i class="fas fa-check text-white text-4xl"></i>
+                </div>
+                
+                <!-- Header -->
+                <h1 class="text-4xl font-bold text-gray-900 mb-3">Account Activated!</h1>
+                <h2 class="text-xl font-medium text-blue-600 mb-6">Welcome to SkillVerse</h2>
+                
+                <!-- Success Message -->
+                <div class="mb-8">
+                    <p class="text-gray-600 text-lg mb-4">
+                        Your SkillVerse account has been successfully activated.
+                    </p>
+                    <p class="text-gray-600">
+                        You can now access all courses, take exams, and earn certificates on our platform.
+                    </p>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="space-y-4">
+                    <a href="{% url 'login' %}" 
+                       class="w-full bg-blue-600 text-white py-4 px-6 rounded-md font-semibold text-lg hover:bg-blue-700 transition-colors inline-block">
+                        Sign In to Your Account
+                    </a>
+                </div>
+                
+                <!-- Features List -->
+                <div class="mt-10 pt-8 border-t border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">What's Next?</h3>
+                    <div class="space-y-4 text-left">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-graduation-cap text-blue-600"></i>
+                            </div>
+                            <span class="text-gray-700">Browse expert-led courses</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-certificate text-blue-600"></i>
+                            </div>
+                            <span class="text-gray-700">Earn professional certificates</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-chart-line text-blue-600"></i>
+                            </div>
+                            <span class="text-gray-700">Track your learning progress</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-users text-blue-600"></i>
+                            </div>
+                            <span class="text-gray-700">Join our learning community</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,242 @@
+{% extends "admin_dashboard/base.html" %}
+
+{% block title %}System Settings - Admin Dashboard{% endblock %}
+{% block page_title %}System Settings{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    
+    <!-- General Settings -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">General Settings</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Platform Name</label>
+                    <input type="text" value="SkillNetwork" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Admin Email</label>
+                    <input type="email" value="admin@skillnetwork.com" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Support Email</label>
+                    <input type="email" value="support@skillnetwork.com" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+                    <select class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                        <option>UTC-5 (Eastern Time)</option>
+                        <option>UTC-6 (Central Time)</option>
+                        <option>UTC-7 (Mountain Time)</option>
+                        <option>UTC-8 (Pacific Time)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exam Settings -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Exam Settings</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Default Exam Duration (minutes)</label>
+                    <input type="number" value="60" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Passing Score (%)</label>
+                    <input type="number" value="70" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Retake Attempts</label>
+                    <input type="number" value="3" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Question Shuffle</label>
+                    <select class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                        <option>Enabled</option>
+                        <option>Disabled</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-6 space-y-4">
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Auto-save exam progress</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Show timer warnings</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Allow question review before submission</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate Settings -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Certificate Settings</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Certificate Authority</label>
+                    <input type="text" value="SkillNetwork Certification Board" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Signatory Name</label>
+                    <input type="text" value="Dr. Michael Chen" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Signatory Title</label>
+                    <input type="text" value="Chief Executive Officer" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Certificate Validity (years)</label>
+                    <input type="number" value="5" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+            </div>
+            
+            <div class="mt-6 space-y-4">
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Auto-issue certificates for passing scores</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Include QR code for verification</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Send certificate via email</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Email Settings -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Email Settings</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">SMTP Server</label>
+                    <input type="text" value="smtp.gmail.com" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">SMTP Port</label>
+                    <input type="number" value="587" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">From Email</label>
+                    <input type="email" value="noreply@skillnetwork.com" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">From Name</label>
+                    <input type="text" value="SkillNetwork" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <button class="bg-white border-2 border-[#052FAD] text-[#052FAD] px-6 py-3 font-medium hover:bg-[#052FAD] hover:text-white transition-colors duration-300">
+                    <i class="fas fa-paper-plane mr-2"></i>Test Email Configuration
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Security Settings -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">Security Settings</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Session Timeout (minutes)</label>
+                    <input type="number" value="30" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password Min Length</label>
+                    <input type="number" value="8" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Login Attempts</label>
+                    <input type="number" value="5" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Account Lockout Duration (minutes)</label>
+                    <input type="number" value="15" class="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#052FAD]">
+                </div>
+            </div>
+            
+            <div class="mt-6 space-y-4">
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Require strong passwords</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Enable two-factor authentication</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" checked class="mr-3 text-[#052FAD] focus:ring-[#052FAD]">
+                    <span class="text-sm text-gray-700">Log security events</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Maintenance -->
+    <div class="bg-white shadow-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">System Maintenance</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button class="flex flex-col items-center p-6 bg-blue-50 hover:bg-blue-100 transition-colors duration-300">
+                    <i class="fas fa-database text-2xl text-blue-600 mb-2"></i>
+                    <span class="font-medium text-blue-900">Backup Database</span>
+                    <span class="text-sm text-blue-600 mt-1">Last: 2 hours ago</span>
+                </button>
+                
+                <button class="flex flex-col items-center p-6 bg-green-50 hover:bg-green-100 transition-colors duration-300">
+                    <i class="fas fa-broom text-2xl text-green-600 mb-2"></i>
+                    <span class="font-medium text-green-900">Clear Cache</span>
+                    <span class="text-sm text-green-600 mt-1">Clear system cache</span>
+                </button>
+                
+                <button class="flex flex-col items-center p-6 bg-yellow-50 hover:bg-yellow-100 transition-colors duration-300">
+                    <i class="fas fa-chart-line text-2xl text-yellow-600 mb-2"></i>
+                    <span class="font-medium text-yellow-900">System Report</span>
+                    <span class="text-sm text-yellow-600 mt-1">Generate report</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Save Settings -->
+    <div class="flex justify-end space-x-4">
+        <button class="bg-gray-300 text-gray-700 px-8 py-3 font-medium hover:bg-gray-400 transition-colors duration-300">
+            Reset to Default
+        </button>
+        <button class="bg-[#052FAD] text-white px-8 py-3 font-medium hover:bg-[#001F5C] transition-colors duration-300">
+            Save All Settings
+        </button>
+    </div>
+    
+</div>
+{% endblock %}

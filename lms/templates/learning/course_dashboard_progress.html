@@ -1,0 +1,1028 @@
+{% extends "base/base.html" %} {% block content %} 
+{% include 'components/toast.html' with messages=messages %}
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: #f4f4f4;
+    color: #161616;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 30px;
+  }
+
+  .nav-tab {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #6c757d;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+
+  .nav-tab.active {
+    color: #161616;
+    border-bottom-color: #0f62fe;
+    font-weight: 500;
+  }
+
+  .page-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #161616;
+  }
+
+  .main-content {
+    display: flex;
+    gap: 40px;
+  }
+
+  .left-section {
+    flex: 2;
+  }
+
+  .right-section {
+    flex: 1;
+  }
+
+  .completion-section {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .completion-text {
+    flex: 1;
+  }
+
+  .completion-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #161616;
+  }
+
+  .completion-desc {
+    font-size: 14px;
+    color: #525252;
+    line-height: 1.5;
+  }
+
+  .progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+  }
+
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .progress-percent {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .grades-section {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .grades-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #161616;
+  }
+
+  .grades-desc {
+    font-size: 14px;
+    color: #525252;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  .grade-progress {
+    margin-bottom: 30px;
+  }
+
+  .grade-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .current-grade {
+    background: #f1c21b;
+    color: #161616;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 12px;
+    min-width: 35px;
+    text-align: center;
+  }
+
+  .grade-bar {
+    flex: 1;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grade-fill {
+    height: 100%;
+    background: #0f62fe;
+    border-radius: 6px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .passing-grade {
+    background: #0043ce;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .grade-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #525252;
+    margin-top: 5px;
+  }
+
+  .current-label {
+    color: #161616;
+    font-weight: 500;
+  }
+
+  .passing-label {
+    color: #161616;
+    font-weight: 500;
+  }
+
+  .warning-box {
+    background: #fff1f1;
+    border: 1px solid #ffb3b8;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .warning-icon {
+    color: #da1e28;
+    font-size: 16px;
+  }
+
+  .warning-text {
+    color: #da1e28;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .grade-summary {
+    margin-bottom: 30px;
+  }
+
+  .summary-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #161616;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .info-icon {
+    color: #525252;
+    font-size: 16px;
+  }
+
+  .grade-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-bottom: 30px;
+  }
+
+  .grade-table th {
+    background: #f4f4f4;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    color: #161616;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .grade-table td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .grade-table .assignment-link {
+    color: #0f62fe;
+    text-decoration: none;
+  }
+
+  .grade-table .assignment-link:hover {
+    text-decoration: underline;
+  }
+
+  .summary-row {
+    background: #f4f4f4;
+    font-weight: 600;
+  }
+
+  .detailed-grades {
+    margin-top: 30px;
+  }
+
+  .detailed-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #161616;
+  }
+
+  .module-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background: white;
+  }
+
+  .module-header {
+    background: #f4f4f4;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .module-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #161616;
+  }
+
+  .module-score {
+    font-size: 14px;
+    color: #161616;
+    font-weight: 500;
+  }
+
+  .module-content {
+    padding: 0;
+  }
+
+  .assignment-item {
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .assignment-item:last-child {
+    border-bottom: none;
+  }
+
+  .assignment-name {
+    color: #0f62fe;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .assignment-name:hover {
+    text-decoration: underline;
+  }
+
+  .assignment-score {
+    font-size: 14px;
+    color: #161616;
+  }
+
+  .expand-icon {
+    color: #525252;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+
+  .module-section.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+
+  .certificate-section {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .certificate-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #161616;
+  }
+
+  .certificate-desc {
+    font-size: 14px;
+    color: #525252;
+    line-height: 1.5;
+  }
+
+  .certificate-button {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top:10px ;
+  margin-bottom: -10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.certificate-button:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.certificate-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
+  .badge-section {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .badge-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #161616;
+  }
+
+  .badge-desc {
+    font-size: 14px;
+    color: #525252;
+    line-height: 1.5;
+  }
+
+  .badge-button {
+     background: linear-gradient(135deg, #4caf50, #45a049);
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     margin-top:10px ;
+     margin-bottom: -10px;
+     border-radius: 8px;
+     font-size: 14px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     letter-spacing: 0.5px;
+  }
+  .badge-button:hover {
+     background: linear-gradient(135deg, #45a049, #3d8b40);
+     transform: translateY(-2px);
+     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  }
+  .badge-button:disabled {
+     background: #cccccc;
+     cursor: not-allowed;
+     transform: none;
+     box-shadow: none;
+  }
+
+
+  .related-links {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .links-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #161616;
+  }
+
+  .link-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .link-title {
+    color: #0f62fe;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .link-title:hover {
+    text-decoration: underline;
+  }
+
+  .link-desc {
+    font-size: 12px;
+    color: #525252;
+  }
+</style>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container">
+  <nav class="nav-tabs">
+    <button
+      class="nav-tab"
+      onclick='window.location.href="{% url "learning_home" course.slug %}"'
+    >
+      Course
+    </button>
+    <button
+      class="nav-tab active"
+      onclick='window.location.href="{% url "learning_progress" course.slug %}"'
+    >
+      Progress
+    </button>
+    <button class="nav-tab">Discussion</button>
+  </nav>
+
+  <h1 class="page-title">Your progress</h1>
+
+  <div class="main-content">
+    <div class="left-section">
+      <div class="completion-section">
+        <div class="completion-text">
+          <h2 class="completion-title">Course completion</h2>
+          <p class="completion-desc">
+            This represents how much of the course content you have completed.
+            Note that some content may not yet be released.
+          </p>
+        </div>
+        <div class="progress-circle">
+          <canvas id="progressChart" width="120" height="120"></canvas>
+          <div class="progress-text">
+            <b><div class="progress-percent" id="progressPercent"></div></b>
+            <div class="progress-label">completed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grades-section">
+        <h2 class="grades-title">Grades</h2>
+        <p class="grades-desc">
+          This represents your weighted grade against the grade needed to pass
+          this course.
+        </p>
+
+        <div class="grade-progress">
+          <div class="grade-bar-container">
+            <div class="current-grade">0%</div>
+            <div class="grade-bar">
+              <div class="grade-fill"></div>
+            </div>
+            <div class="passing-grade">70%</div>
+          </div>
+          <div class="grade-labels">
+            <span class="current-label">Your current grade</span>
+            <span class="passing-label">Passing grade</span>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <i class="fas fa-exclamation-triangle warning-icon"></i>
+          <span class="warning-text"
+            >A weighted grade of 70% is required to pass in this course</span
+          >
+        </div>
+
+        <div class="grade-summary">
+          <h3 class="summary-title">
+            Grade summary
+            <i class="fas fa-info-circle info-icon"></i>
+          </h3>
+
+          <table class="grade-table">
+            <thead>
+              <tr>
+                <th>Assignment type</th>
+                <th>Weight</th>
+                <th>Grade</th>
+                <th>Weighted grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" class="assignment-link">Final Exam</a></td>
+                <td>50%</td>
+                <td>0%</td>
+                <td>0%</td>
+              </tr>
+              <tr>
+                <td>
+                  <a href="#" class="assignment-link">Review Questions</a>
+                </td>
+                <td>50%</td>
+                <td>0%</td>
+                <td>0%</td>
+              </tr>
+              <tr class="summary-row">
+                <td>Your current weighted grade summary</td>
+                <td></td>
+                <td></td>
+                <td>0%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detailed-grades">
+          <h3 class="detailed-title">Detailed grades</h3>
+          <div id="modules-container">
+            <!-- Modules will be dynamically loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <!-- NFT Blockchain Certificate Section -->
+      <div class="certificate-section" style="border-top: 3px solid #6929c4;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+          <h3 class="certificate-title" style="margin-bottom: 0;">Blockchain Certificate</h3>
+          <span style="background: linear-gradient(135deg, #0f62fe, #6929c4); color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">NFT</span>
+        </div>
+        <p class="certificate-desc">
+          Earn an immutable, verifiable credential as an NFT on the Ethereum blockchain. Requires a passing grade (70%+).
+        </p>
+        <div class="nft-cert-actions" style="display: none;">
+          <button class="certificate-button" style="background: linear-gradient(135deg, #0f62fe, #6929c4);" onclick="openNftMint()" id="nftMintBtn">
+            <i class="fas fa-link"></i> Issue NFT Certificate
+          </button>
+          <div style="margin-top: 8px;">
+            <a href="{% url 'nft_verify' %}" style="color: #0f62fe; font-size: 0.85rem; text-decoration: none;">
+              <i class="fas fa-shield-alt"></i> Verify a Certificate →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Original LMS Certificate Section -->
+      <div class="certificate-section">
+        <h3 class="certificate-title">Certificate status</h3>
+        <p class="certificate-desc">
+          In order to qualify for a certificate, you must have a passing grade.
+        </p>
+        <div class="cert-button-div" style="display: none;">
+            <div
+              class="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin hidden"
+            ></div>
+          <button class="certificate-button" onclick="requestCertificate()">Request Certificate</button>
+        </div>
+        
+      </div>
+
+      <div class="badge-section">
+        <h3 class="badge-title">Badge status</h3>
+        <p class="badge-desc">
+          In order to qualify for a course completion badge, you must complete the course 100%.
+        </p>
+            <div class="badge-button-div" style="display: none;">
+              <button class="badge-button" onclick="claimBadge()">Claim Badge</button>
+            </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Fetch course progress data and update the circular progress chart
+  document.addEventListener("DOMContentLoaded", function () {
+    fetchCourseProgress();
+    fetchGradedQuestions();
+  });
+
+  // Fetch course progress and update circular chart
+  function fetchCourseProgress() {
+    const url = `/api/learning/progress/{{ course.uid }}/`;
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.status) return;
+        const { serialized_modules } = data;
+
+        let totalLessons = 0;
+        let completedLessons = 0;
+
+        serialized_modules.forEach(({ progress_detail }) => {
+          totalLessons += progress_detail.total_lesson_count || 0;
+          completedLessons += progress_detail.completed_lesson_count || 0;
+        });
+
+        const progress = totalLessons
+          ? Math.round((completedLessons / totalLessons) * 100)
+          : 0;
+        updateCircularProgress(progress);
+      })
+      .catch(console.error);
+  }
+
+  // Update circular chart
+  function updateCircularProgress(percentage) {
+    const canvas = document.getElementById("progressChart");
+    const ctx = canvas.getContext("2d");
+    const radius = 50;
+    const lineWidth = 10;
+    const startAngle = -0.5 * Math.PI;
+    const endAngle = startAngle + (percentage / 100) * 2 * Math.PI;
+
+    const progressColor =
+      percentage < 30 ? "#f44336" : percentage < 70 ? "#ff9800" : "#4caf50";
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background
+    ctx.beginPath();
+    ctx.arc(60, 60, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#e6e6e6";
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+
+    // Progress
+    ctx.beginPath();
+    ctx.arc(60, 60, radius, startAngle, endAngle);
+    ctx.strokeStyle = progressColor;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    document.getElementById("progressPercent").textContent = `${percentage}%`;
+  }
+
+  // Fetch graded questions and update grade bar
+  function fetchGradedQuestions() {
+    const url = `/api/learning/course/{{ course.uid }}/graded-questions-summary/`;
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        const { lessons = [] } = data;
+
+        let lessonCorrect = 0, lessonTotal = 0;
+        let examCorrect = 0, examTotal = 0;
+
+        lessons.forEach(({ graded_questions_detail, module_is_final_exam }) => {
+          if (graded_questions_detail) {
+            const correct = graded_questions_detail.total_score || 0; // Use weighted score
+            const total = graded_questions_detail.total_questions || 0;
+            
+            if (module_is_final_exam) {
+              examCorrect += correct;
+              examTotal += total;
+            } else {
+              lessonCorrect += correct;
+              lessonTotal += total;
+            }
+          }
+        });
+
+        const lessonAvg = lessonTotal ? (lessonCorrect / lessonTotal) * 100 : 0;
+        const examAvg = examTotal ? (examCorrect / examTotal) * 100 : 0;
+        const weightedGrade = (lessonAvg * 0.5) + (examAvg * 0.5);
+        const passed = weightedGrade >= 70;
+        updateBadgeStatus(weightedGrade);
+        updateCertificationStatus(weightedGrade);
+        updateGradeBar(weightedGrade, lessonCorrect + examCorrect, lessonTotal + examTotal, passed);
+        updateGradeTable(lessonAvg, examAvg, weightedGrade);
+        generateModules(lessons);
+        
+      })
+      .catch(console.error);
+  }
+
+  // Update grade progress bar
+  function updateGradeBar(percentage, correct, total, passed) {
+    const currentGradeEl = document.querySelector(".current-grade");
+    const gradeFillEl = document.querySelector(".grade-fill");
+
+    currentGradeEl.textContent = `${correct}/${total} (${Math.round(
+      percentage
+    )}%)`;
+    gradeFillEl.style.width = `${Math.min(percentage, 100)}%`;
+    gradeFillEl.style.backgroundColor = passed ? "#28a745" : "#dc3545";
+  }
+
+  // Update certificate button visibility
+  function updateCertificationStatus(weightedGrade) {
+    const buttonDiv = document.querySelector(".cert-button-div");
+    const nftActions = document.querySelector(".nft-cert-actions");
+    
+    if (weightedGrade >= 70) {
+      buttonDiv.style.display = 'block';
+      if (nftActions) nftActions.style.display = 'block';
+      checkCertificateStatus();
+    } else {
+      buttonDiv.style.display = 'none';
+      if (nftActions) nftActions.style.display = 'none';
+    }
+  }
+
+  // Open NFT Mint page with pre-filled student info
+  function openNftMint() {
+    const params = new URLSearchParams({
+      student_name: '{{ request.user.get_full_name|escapejs }}',
+      student_email: '{{ request.user.email|escapejs }}',
+      course_title: '{{ course.title|escapejs }}'
+    });
+    window.location.href = "{% url 'nft_mint' %}?" + params.toString();
+  }
+  // Check if certificate already exists
+  function checkCertificateStatus() {
+    fetch(`{% url 'certificate_status' course.uid %}`)
+    .then(res => res.json())
+    .then(data => {
+      const button = document.querySelector('.certificate-button');
+      if (data.status) {
+        button.textContent = 'Download Certificate';
+        button.onclick = () => window.open(data.data.certificate_url, '_blank');
+      } else {
+        button.textContent = 'Request Certificate';
+        button.onclick = requestCertificate;
+      }
+    })
+    .catch(() => {
+      console.error('Error checking certificate status');
+    });
+  }
+
+  // Request certificate function
+  function requestCertificate() {
+    const button = document.querySelector('.certificate-button');
+    button.disabled = true;
+    button.innerHTML = `<div
+              class="w-5 h-5 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+            ></div>`;
+    
+    
+    fetch(`/api/credentials/certificate/request/{{ course.uid }}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status) {
+        button.textContent = 'Download Certificate';
+        button.onclick = () => window.open(data.data.certificate_url, '_blank');
+      } else {
+        button.textContent = 'Request Certificate';
+        alert('Failed to create certificate');
+      }
+      button.disabled = false;
+    })
+    .catch(() => {
+      button.textContent = 'Request Certificate';
+      button.disabled = false;
+      alert('Error creating certificate');
+    });
+  }
+
+  function updateBadgeStatus(percentage) {
+    const buttonDiv = document.querySelector(".badge-button-div");
+    {% if course.badge %}
+        if (percentage >= 70) {
+          buttonDiv.style.display = 'block';
+          checkBadgeStatus();
+        } else {
+          buttonDiv.style.display = 'none';
+        }
+    {% endif %}
+  }
+
+  // Claim badge function
+  function claimBadge() {
+    const button = document.querySelector('.badge-button');
+    button.disabled = true;
+    const originalText = button.textContent;
+    button.innerHTML = `<div class="w-5 h-5 border-4 border-t-white border-white/30 rounded-full animate-spin inline-block"></div>`;
+    
+    fetch(`/api/credentials/badge/claim/{{ course.uid }}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status) {
+        button.textContent = 'View Badge';
+        button.onclick = () => window.location.href = data.data.badge_url;
+        // alert(data.message);
+      } else {
+        button.textContent = originalText;
+        alert(data.message || 'Failed to claim badge');
+      }
+      button.disabled = false;
+    })
+    .catch((error) => {
+      console.error('Error claiming badge:', error);
+      button.textContent = originalText;
+      button.disabled = false;
+      alert('Error claiming badge');
+    });
+  }
+
+  //badge status 
+  function checkBadgeStatus() {
+    fetch(`/api/credentials/badge/status/{{ course.uid }}/`)
+    .then(res => res.json())
+    .then(data => {
+      const button = document.querySelector('.badge-button');
+      if (data.status) {
+        button.textContent = 'View Badge';
+        button.onclick = () => window.location.href = data.data.badge_url;
+        // alert(data.message);
+      } else {
+        button.textContent = 'Claim Badge';
+        button.onclick = claimBadge;
+      }
+    })
+    .catch(() => {
+      console.error('Error checking badge status');
+    });
+  }
+
+  // Update grade table
+      function updateGradeTable(lessonAvg, examAvg, weightedGrade) {
+    const rows = document.querySelectorAll(".grade-table tbody tr");
+
+    // Final Exam row
+    if (rows[0]) {
+      rows[0].querySelectorAll("td")[2].textContent = `${Math.round(examAvg)}%`;
+      rows[0].querySelectorAll("td")[3].textContent = `${Math.round(examAvg * 0.5)}%`;
+    }
+    // Review Questions row
+    if (rows[1]) {
+      rows[1].querySelectorAll("td")[2].textContent = `${Math.round(lessonAvg)}%`;
+      rows[1].querySelectorAll("td")[3].textContent = `${Math.round(lessonAvg * 0.5)}%`;
+    }
+    // Weighted grade summary row
+    if (rows[2]) {
+      rows[2].querySelectorAll("td")[3].textContent = `${Math.round(weightedGrade)}%`;
+    }
+  }
+
+  // Generate module list UI
+  function generateModules(lessons) {
+    const container = document.getElementById("modules-container");
+    const moduleMap = new Map();
+
+    lessons.forEach(
+      ({
+        uid,
+        graded_questions_detail,
+        module_title,
+        module_is_final_exam,
+        title,
+      }) => {
+        if (!graded_questions_detail?.total_questions) return;
+
+        const moduleName = module_title || "Module";
+        if (!moduleMap.has(moduleName)) moduleMap.set(moduleName, []);
+        moduleMap
+          .get(moduleName)
+          .push({
+            uid,
+            title,
+            graded: graded_questions_detail,
+            module_is_final_exam,
+          });
+      }
+    );
+
+    const orderedModules = [...moduleMap.keys()].sort((a, b) => {
+      const aFinal = moduleMap.get(a)[0].module_is_final_exam;
+      const bFinal = moduleMap.get(b)[0].module_is_final_exam;
+      return aFinal === bFinal ? 0 : aFinal ? 1 : -1;
+    });
+
+    orderedModules.forEach((name) => {
+      const lessons = moduleMap.get(name);
+      const correct = lessons.reduce(
+        (acc, l) => acc + (l.graded.total_score || 0),
+        0
+      );
+      const total = lessons.reduce(
+        (acc, l) => acc + (l.graded.total_questions || 0),
+        0
+      );
+      
+      container.innerHTML += `
+            <div class="module-section" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <span class="module-title">${name}</span>
+                    <div style="display:flex;align-items:center;gap:15px;">
+                        <span class="module-score">${correct}/${total}</span>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                </div>
+                <div class="module-content" style="display:none;">
+                    ${lessons
+                      .map(
+                        (l) =>
+                          `<div class="assignment-item"><a href="{% url "learning_modules" course.slug %}?l=${l.uid}" class="assignment-name">${l.title}</a><span class="assignment-score">${l.graded.total_score}/${l.graded.total_questions}</span></div>`
+                      )
+                      .join("")}
+                </div>
+            </div>
+        `;
+    });
+  }
+
+  // Toggle module dropdown
+  function toggleModule(section) {
+    const content = section.querySelector(".module-content");
+    content.style.display =
+      content.style.display === "block" ? "none" : "block";
+    section.classList.toggle("expanded");
+  }
+</script>
+{% endblock content %}
