@@ -40,43 +40,4 @@ def generate_qr_code_base64(data):
     img_base64 = base64.b64encode(buffer.read()).decode('utf-8')
     return img_base64
 
-def generate_qr_code_base64_with_img(data, logo_path='static/images/logo.png'):
-    import qrcode
-    from PIL import Image, ImageDraw
-    qr = qrcode.QRCode(
-        version=4,
-        error_correction=qrcode.constants.ERROR_CORRECT_H,  # High error correction
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(data)
-    qr.make(fit=True)
-
-    img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
-
-    if logo_path:
-        logo = Image.open(logo_path).convert("RGBA")
-
-        qr_width, qr_height = img.size
-        logo_size = qr_width // 5  # 20% of QR code size
-        logo = logo.resize((logo_size, logo_size), Image.Resampling.LANCZOS)
-
-        # White background box
-        draw = ImageDraw.Draw(img)
-        pos = ((qr_width - logo_size) // 2, (qr_height - logo_size) // 2)
-        box_coords = [
-            pos[0] - 10, pos[1] - 10,  # padding
-            pos[0] + logo_size + 10, pos[1] + logo_size + 10
-        ]
-        draw.rectangle(box_coords, fill="white")
-
-        # Paste logo on white box
-        img.paste(logo, pos, mask=logo)
-
-    buffer = BytesIO()
-    img.save(buffer, format="PNG")
-    buffer.seek(0)
-
-    img_base64 = base64.b64encode(buffer.read()).decode("utf-8")
-    return img_base64
 
