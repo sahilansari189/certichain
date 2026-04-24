@@ -814,7 +814,7 @@
       const button = document.querySelector('.certificate-button');
       if (data.status) {
         button.textContent = 'Request Certificate';
-        button.onclick = () => window.open(data.data.certificate_url, '_blank');
+        button.onclick = () => '_blank');
       } else {
         button.textContent = 'Request Certificate';
         button.onclick = requestCertificate;
