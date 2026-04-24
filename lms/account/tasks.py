@@ -45,7 +45,7 @@ def got_enrollment_access_email(self, email, course_name, course_url):
         context = {
             'course_name': course_name,
             'course_url': course_url,
-            'contact_email': 'support@allswiftsolutions.in',
+            'contact_email': 'support@certichain.io',
             'current_year': datetime.now().year,
         }
         

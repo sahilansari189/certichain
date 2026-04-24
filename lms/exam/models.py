@@ -1,5 +1,4 @@
 from django.db import models
-import pandas as pd
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.db.models import Sum

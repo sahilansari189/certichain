@@ -4,3 +4,4 @@ from .views import *
 app_name = 'dashboard'
 urlpatterns = [
 ]
+

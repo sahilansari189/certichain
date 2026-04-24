@@ -71,3 +71,4 @@ def create_enrollment(request,slug):
     messages.error(request, "Method not allowed")
     return redirect('course_detail', slug=slug)
 
+

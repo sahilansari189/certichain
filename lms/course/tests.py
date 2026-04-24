@@ -123,3 +123,4 @@ class CourseAPITest(APITestCase):
         response = self.client.get('/api/courses/?skills=Python')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['data']), 1)
+

@@ -33,3 +33,4 @@ def option_status(marked_option, option_uid, is_correct):
 @register.simple_tag
 def set_var(val=None):
     return val
+

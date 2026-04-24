@@ -27,3 +27,4 @@ class Migration(migrations.Migration):
             name='final_exam_started_at',
         ),
     ]
+

@@ -253,3 +253,4 @@ EMAILJS_SERVICE_ID = env("EMAILJS_SERVICE_ID", default="")
 EMAILJS_TEMPLATE_ID = env("EMAILJS_TEMPLATE_ID", default="")
 EMAILJS_PUBLIC_KEY = env("EMAILJS_PUBLIC_KEY", default="")
 IMGBB_KEY = env("IMGBB_KEY", default="")
+

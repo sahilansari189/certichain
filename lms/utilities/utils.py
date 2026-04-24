@@ -78,3 +78,4 @@ def generate_qr_code_base64_with_img(data, logo_path='static/images/logo.png'):
 
     img_base64 = base64.b64encode(buffer.read()).decode("utf-8")
     return img_base64
+

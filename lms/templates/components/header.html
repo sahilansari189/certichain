@@ -4,12 +4,9 @@
     <nav class="flex items-center px-4 sm:px-6 py-3 h-16">
         <!-- Logo & Brand -->
         <div class="flex items-center gap-4 mr-4 sm:mr-8 h-full">
-            <a href="{% url 'home' %}" class="flex items-center h-full">
-                <img src="{% static 'images/logo_.png' %}" alt="Logo" class="h-10 w-auto object-contain">
-            </a>
-            <div class="w-px h-6 bg-gray-300"></div>
-            <a href='{% url "course_list" %}' class="flex items-center h-full">
-                <img src="{% static 'images/ASPL_.png' %}" alt="ASPL" class="h-8 w-auto object-contain">
+            <a href="{% url 'home' %}" class="flex items-center h-full gap-2">
+                <img src="{% static 'images/certichain_logo.png' %}" alt="CertiChain" class="h-10 w-auto object-contain">
+                <span class="hidden sm:inline font-bold text-lg" style="background: linear-gradient(135deg, #0f62fe, #6929c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CertiChain</span>
             </a>
         </div>
 
@@ -429,3 +426,4 @@
         font-family: 'IBM Plex Sans', sans-serif;
     }
 </style>
+

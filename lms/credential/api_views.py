@@ -156,3 +156,4 @@ def badge_status(request, course_uid):
             },
             'message': 'No badge found'
         })
+

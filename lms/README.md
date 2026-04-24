@@ -1,6 +1,6 @@
-# SkillVerse LMS — with Blockchain NFT Certification
+# CertiChain LMS — with Blockchain NFT Certification
 
-SkillVerse is a comprehensive Django-based Learning Management System with integrated **blockchain NFT certification** powered by Ethereum (Sepolia Testnet). Students complete courses, earn verifiable on-chain credentials as ERC-721 NFTs, and share them across social platforms.
+CertiChain is a comprehensive Django-based Learning Management System with integrated **blockchain NFT certification** powered by Ethereum (Sepolia Testnet). Students complete courses, earn verifiable on-chain credentials as ERC-721 NFTs, and share them across social platforms.
 
 > Built with Django 5.2 · ethers.js v6 · Solidity Smart Contract · EmailJS · Sepolia Testnet
 
@@ -344,12 +344,13 @@ pip install -r requirements.txt && python manage.py collectstatic --noinput && p
 
 ## 📄 License
 
-This project is proprietary software by Allswift Solutions Pvt. Ltd.
+This project is proprietary software by CertiChain
 
 ## 📞 Support
 
-For support and queries, contact Allswift Solutions Pvt. Ltd.
+For support and queries, contact CertiChain
 
 ---
 
-**SkillVerse LMS** — Bridging Academia and Industry Through Technology & Blockchain
+**CertiChain LMS** — Bridging Academia and Industry Through Technology & Blockchain
+

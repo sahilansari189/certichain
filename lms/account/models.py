@@ -3,7 +3,7 @@ from base.models import BaseModel
 from django.contrib.auth.models import User
 from course.models import Course
 from .choices import BULK_ALLOWED_EMAIL_STATUS
-import pandas as pd
+
 from django.utils import timezone
 from account.tasks import got_enrollment_access_email
 import logging
@@ -61,6 +61,7 @@ class BulkAllowedEmail(BaseModel):
     
     def create_allowed_emails(self):
         try:
+            import pandas as pd
             df = pd.read_excel(self.file)
         except Exception as e:
             self.log = f"Error reading file: {e}"
@@ -97,7 +98,7 @@ class BulkAllowedEmail(BaseModel):
         self.save()
 
         course_url = reverse('register')
-        url = 'https://sv.allswiftsolutions.in'
+        url = 'https://certichain.io'
 
         got_enrollment_access_email.delay(
             email=emails,

@@ -33,3 +33,4 @@ def send_contact_email_task(self, name, email, subject, message):
         self.retry(exc=e, countdown=10)
         return f"Email failed: {str(e)}"
 
+

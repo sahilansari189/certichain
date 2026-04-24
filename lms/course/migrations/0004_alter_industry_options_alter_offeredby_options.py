@@ -19,3 +19,4 @@ class Migration(migrations.Migration):
             options={'verbose_name': 'Offered By', 'verbose_name_plural': 'Offered Bys'},
         ),
     ]
+

@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
         # Create initial Offered By entries
         organizations = [
-            ('ASPL', 'https://www.allswiftsolutions.in')
+            ('CertiChain', 'https://certichain.io')
         ]
         
         for org_name, website in organizations:

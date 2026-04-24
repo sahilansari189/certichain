@@ -18,10 +18,11 @@ def create_user_extra_info(sender, instance, created, **kwargs):
     if created:
         logger.info('Allowed Email Created')
         course_url = reverse('register')
-        url = 'https://sv.allswiftsolutions.in'
+        url = 'https://certichain.io'
         got_enrollment_access_email.delay(
             email=instance.email,
             course_name=instance.course.title,
             course_url=f'{url}{course_url}',
         )
         logger.info(f'Allowed Email Created: {instance.email}')
+

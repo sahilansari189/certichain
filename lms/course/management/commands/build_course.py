@@ -24,7 +24,7 @@ class Command(BaseCommand):
         instructors = User.objects.all()
         durations = [36, 32, 50, 60]
         course_types = [ i[0] for i in COURSE_TYPES ]
-        instructor, _ = User.objects.get_or_create(username='johndoe', first_name='John', last_name='Doe',email='shashwat.allswift@gmail.com')
+        instructor, _ = User.objects.get_or_create(username='johndoe', first_name='John', last_name='Doe',email='shashwat.admin@certichain.io')
         if _ is True:
             instructor.set_password('password123')
             instructor.save()

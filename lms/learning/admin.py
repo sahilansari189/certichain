@@ -16,3 +16,4 @@ class ModuleTrackingAdmin(admin.ModelAdmin):
     search_fields = ('enrollment__user__username', 'module__title')
 
 admin.site.register(ModuleTracking, ModuleTrackingAdmin)
+

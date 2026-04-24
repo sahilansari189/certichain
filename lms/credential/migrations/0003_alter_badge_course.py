@@ -18,3 +18,4 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='badge', to='course.course'),
         ),
     ]
+
