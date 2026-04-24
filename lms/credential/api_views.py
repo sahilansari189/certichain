@@ -42,30 +42,20 @@ def CertificateStatus(request, course_uid):
 def request_certificate(request, course_uid):
     '''
     API view to create a certificate for the authenticated user.
+    Sends email every time the button is clicked.
     '''
     user = request.user
     course = get_object_or_404(Course, uid=course_uid)
     enrollment = get_object_or_404(Enrollment, user=user, course=course)
     
-    # Check if certificate already exists
-    existing_cert = Certificate.objects.filter(user=user, course=course).first()
-    if existing_cert:
-        certificate_url = reverse('certificate', args=[existing_cert.uid])
-        return Response({
-            'status': True,
-            'data': {
-                'certificate_url': request.build_absolute_uri(certificate_url)
-            },
-            'message': 'Certificate already exists'
-        })
-    
-    # Create new certificate
-    certificate = Certificate.objects.create(
+    # Get or create certificate
+    certificate, created = Certificate.objects.get_or_create(
         user=user,
-        enrollment=enrollment,
-        course=course
+        course=course,
+        defaults={'enrollment': enrollment}
     )
-    print(user.email)
+
+    # Send email every time
     send_certificate_email(  
         protocol=request.scheme,
         domain=request.get_host(),
@@ -80,7 +70,7 @@ def request_certificate(request, course_uid):
         'data': {
             'certificate_url': request.build_absolute_uri(certificate_url)
         },
-        'message': 'Certificate created successfully'
+        'message': 'Certificate request email sent successfully'
     })
     
 @api_view(['POST'])
