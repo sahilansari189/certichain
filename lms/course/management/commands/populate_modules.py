@@ -33,3 +33,4 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'  Created lesson: {lesson.title} for module: {module.title}'))
     
         self.stdout.write(self.style.SUCCESS('Successfully populated modules and lessons for all courses.'))
+

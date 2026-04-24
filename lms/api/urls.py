@@ -6,3 +6,4 @@ urlpatterns = [
     path('learning/', include('api.learning_urls')),
     path('credentials/', include('api.credential_url')),
 ]
+

@@ -100,10 +100,11 @@ class BulkAllowedEmail(BaseModel):
         course_url = reverse('register')
         url = 'https://certichain.io'
 
-        got_enrollment_access_email.delay(
+        got_enrollment_access_email(
             email=emails,
             course_name=course.title,
             course_url=f'{url}{course_url}',
         )
         logger.info(f'Allowed Email Created: {email}')
         return True
+

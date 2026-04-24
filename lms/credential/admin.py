@@ -5,3 +5,4 @@ from .models import Certificate,Badge,StudentBadge
 admin.site.register(Certificate)
 admin.site.register(Badge)
 admin.site.register(StudentBadge)
+

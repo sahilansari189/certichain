@@ -124,3 +124,4 @@ class CourseAPITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['data']), 1)
 
+

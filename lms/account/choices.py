@@ -3,3 +3,4 @@ BULK_ALLOWED_EMAIL_STATUS = (
     ('processed', 'Processed'),
     ('failed', 'Failed'),
 )
+

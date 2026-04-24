@@ -32,3 +32,4 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Enrollment, EnrollmentAdmin)
+

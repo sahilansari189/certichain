@@ -51,3 +51,4 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.WARNING(f'Course already exists: {title}'))
         self.stdout.write(self.style.SUCCESS('Successfully populated courses'))
+

@@ -134,3 +134,4 @@ class Command(BaseCommand):
             for j, (lt, lc) in enumerate(lessons, 1):
                 Lesson.objects.create(module=m, title=lt, content=lc, order=j)
 
+

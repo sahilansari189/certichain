@@ -37,3 +37,4 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Custom error handlers
 handler404 = 'skillnetwork.views.custom_404'
+

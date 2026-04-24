@@ -7,3 +7,4 @@ urlpatterns = [
     path('badge/claim/<course_uid>/', claim_badge, name='claim_badge'),
     path('badge/status/<course_uid>/', badge_status, name='badge_status'),
 ]
+

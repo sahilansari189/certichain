@@ -5,3 +5,4 @@ app_name = 'admin_dashboard'
 urlpatterns = [
 
 ]
+

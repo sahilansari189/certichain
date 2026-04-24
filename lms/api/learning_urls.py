@@ -7,3 +7,4 @@ urlpatterns = [
     path('lesson/<lesson_uid>/graded-questions/', lesson_graded_questions_detail, name='lesson_graded_questions'),
     path('course/<course_uid>/graded-questions-summary/', course_graded_questions_summary, name='course_graded_questions_summary'),
 ]
+

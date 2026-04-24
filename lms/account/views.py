@@ -85,7 +85,7 @@ def login_view(request):
             
             protocol = request.scheme
             domain = request.get_host()
-            send_user_email_verification.delay(protocol, domain, user_obj.email, user_info.verification_code)
+            send_user_email_verification(protocol, domain, user_obj.email, user_info.verification_code)
             
             messages.info(request, 'We sent you an email, please verify your account.')
             return redirect('login')
@@ -149,7 +149,7 @@ def forgot_password_view(request):
         # Send password reset email
         protocol = request.scheme
         domain = request.get_host()
-        send_password_reset_email.delay(protocol, domain, email, str(user_info.password_reset_token))
+        send_password_reset_email(protocol, domain, email, str(user_info.password_reset_token))
         
         messages.success(request, 'Password reset link has been sent to your email.')
         return redirect('login')
@@ -204,3 +204,4 @@ def my_courses(request):
         'enrollments': enrollments
     }
     return render(request, 'account/my_courses.html', context)
+

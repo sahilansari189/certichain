@@ -7,3 +7,4 @@ urlpatterns = [
     path('<slug:slug>/enroll/', create_enrollment, name='create_enrollment'),
 
 ]
+

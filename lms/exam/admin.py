@@ -19,3 +19,4 @@ class QuestionInline(admin.ModelAdmin):
     inlines = [OptionInline]
     
 admin.site.register(Question, QuestionInline)
+

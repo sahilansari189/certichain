@@ -252,3 +252,4 @@ class LessonGradedQuestionsSerializer(ModelSerializer):
             "passed": passed,
             "pass_threshold": 70
         }
+

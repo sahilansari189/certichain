@@ -14,3 +14,4 @@ urlpatterns = [
     path('digital-credentials/', digital_credentials, name='digital_credentials'),
     path('frequently-asked-questions/', faq, name='faq'),
 ]
+

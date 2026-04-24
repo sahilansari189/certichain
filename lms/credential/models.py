@@ -38,3 +38,4 @@ class StudentBadge(BaseModel):
         verbose_name = 'Student Badge'
         verbose_name_plural = 'Student Badges'
         unique_together = ('enrollment', 'badge')
+

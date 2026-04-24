@@ -17,3 +17,4 @@ class ModuleTrackingAdmin(admin.ModelAdmin):
 
 admin.site.register(ModuleTracking, ModuleTrackingAdmin)
 
+

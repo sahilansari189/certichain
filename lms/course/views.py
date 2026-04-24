@@ -72,3 +72,4 @@ def create_enrollment(request,slug):
     return redirect('course_detail', slug=slug)
 
 
+

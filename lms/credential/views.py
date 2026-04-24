@@ -79,3 +79,4 @@ def nft_verify(request):
         'imgbb_key': settings.IMGBB_KEY,
     }
     return render(request, 'credential/certificate/nft_verify.html', context)
+

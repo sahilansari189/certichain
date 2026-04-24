@@ -234,23 +234,12 @@ LOGGING = {
     },
 }
 
-# Redis running on localhost:6379
-# redis_PASSWORD = env("REDIS_PASSWORD", default=None)
-# if redis_PASSWORD:
-#     CELERY_BROKER_URL = f"redis://{redis_PASSWORD}@localhost:6379/0"
-#     CELERY_RESULT_BACKEND = f"redis://{redis_PASSWORD}@localhost:6379/1"
-# else:
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "Asia/Kolkata"
 
 # NFT CertiChain - Blockchain Certificate Configuration
 EMAILJS_SERVICE_ID = env("EMAILJS_SERVICE_ID", default="")
 EMAILJS_TEMPLATE_ID = env("EMAILJS_TEMPLATE_ID", default="")
 EMAILJS_PUBLIC_KEY = env("EMAILJS_PUBLIC_KEY", default="")
 IMGBB_KEY = env("IMGBB_KEY", default="")
+
 

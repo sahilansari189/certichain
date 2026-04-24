@@ -82,3 +82,4 @@ class ModuleTracking(BaseModel):
         except Exception as e:
             logger.error(f"Error ending final exam: {str(e)}")
             return False
+

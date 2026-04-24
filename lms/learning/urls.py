@@ -11,3 +11,4 @@ urlpatterns = [
     path('<module_uid>/start_exam/', start_exam, name='start_exam'),
     path('<module_uid>/end_exam/', end_exam, name='end_exam'),
 ]
+

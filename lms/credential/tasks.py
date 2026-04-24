@@ -1,4 +1,3 @@
-from celery import shared_task
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -9,8 +8,7 @@ logger = logging.getLogger(__name__)
 from django.urls import reverse
 from django.utils import timezone
 
-@shared_task(bind=True, max_retries=3, default_retry_delay=10)  # 10s between retries
-def send_certificate_email(self, protocol, domain, email, course_title, certificate_uid):
+def send_certificate_email(protocol, domain, email, course_title, certificate_uid):
     certificate_url = reverse('certificate', args=[certificate_uid])
     try:
         subject = "Your Certificate is Ready!"
@@ -32,4 +30,3 @@ def send_certificate_email(self, protocol, domain, email, course_title, certific
         return True
     except Exception as exc:
         logger.error(f'Error in sending certificate email: {exc}')
-        raise self.retry(exc=exc)

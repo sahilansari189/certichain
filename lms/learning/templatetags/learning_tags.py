@@ -34,3 +34,4 @@ def option_status(marked_option, option_uid, is_correct):
 def set_var(val=None):
     return val
 
+

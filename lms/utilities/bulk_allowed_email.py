@@ -35,3 +35,4 @@ if __name__ == "__main__":
     path = 'utilities\\test_allowed_email.xlsx'
     path_main = 'utilities\\LordsUniversityBBAISem2025-26_.xlsx'
     process_bulk_allowed_email(path_main)
+

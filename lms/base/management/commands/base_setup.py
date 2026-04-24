@@ -44,3 +44,4 @@ class Command(BaseCommand):
             Tier.objects.get_or_create(name=tier)
 
         self.stdout.write(self.style.SUCCESS('Successfully set up initial data for the Course app'))
+

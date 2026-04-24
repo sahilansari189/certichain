@@ -154,3 +154,4 @@ def course_graded_questions_summary(request, course_uid):
         print(e)
         logger.error(f"Error fetching course graded questions summary for course_uid: {course_uid}, user: {request.user}, error: {str(e)}")
         return Response({'error': str(e)}, status=400)
+

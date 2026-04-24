@@ -10,3 +10,4 @@ urlpatterns = [
     path('nft/mint/', nft_mint, name='nft_mint'),
     path('nft/verify/', nft_verify, name='nft_verify'),
 ]           
+

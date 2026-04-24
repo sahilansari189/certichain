@@ -109,3 +109,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully populated modules and lessons for all courses.'))
         
         
+

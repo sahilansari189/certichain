@@ -33,3 +33,4 @@ def course_list_api(request):
         'data': serializer.data
     })
     
+

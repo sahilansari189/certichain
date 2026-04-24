@@ -6,3 +6,4 @@ urlpatterns = [
     path('', course_list_api, name='course_list_api'),
     path('<slug>/modules-lessons/', get_modules_and_lessons, name='get_modules_and_lessons'),
 ]
+

@@ -264,3 +264,4 @@ def end_exam(request, module_uid):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

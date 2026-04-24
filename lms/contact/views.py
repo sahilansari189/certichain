@@ -30,7 +30,7 @@ def contact(request):
             )
             
             logger.info(f"Contact message received from {email} (ID: {contact_entry.id})")
-            send_contact_email_task.delay(name, email, subject, message)
+            send_contact_email_task(name, email, subject, message)
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('contact')
 
@@ -40,3 +40,4 @@ def contact(request):
             return render(request, 'contact/contact.html')
 
     return render(request, 'contact/contact.html')
+

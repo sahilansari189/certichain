@@ -40,3 +40,4 @@ def check_valid_uuid(uid):
         return True
     except ValueError:
         return False
+

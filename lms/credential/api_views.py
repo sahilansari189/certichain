@@ -66,7 +66,7 @@ def request_certificate(request, course_uid):
         course=course
     )
     print(user.email)
-    send_certificate_email.delay(  
+    send_certificate_email(  
         protocol=request.scheme,
         domain=request.get_host(),
         email=user.email,
@@ -156,4 +156,5 @@ def badge_status(request, course_uid):
             },
             'message': 'No badge found'
         })
+
 

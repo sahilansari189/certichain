@@ -41,3 +41,4 @@ def generate_qr_code_base64(data):
     return img_base64
 
 
+

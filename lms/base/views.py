@@ -26,3 +26,4 @@ def digital_credentials(request):
 def faq(request):
     return render(request, 'base/Placeholders/FAQ.html')
 
+

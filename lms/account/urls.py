@@ -9,3 +9,4 @@ urlpatterns = [
     path('reset-password/<token>/', reset_password_view, name='reset_password_view'),
 ]
 
+
