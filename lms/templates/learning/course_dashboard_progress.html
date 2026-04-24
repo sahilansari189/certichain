@@ -632,11 +632,6 @@
           <button class="certificate-button" style="background: linear-gradient(135deg, #0f62fe, #6929c4);" onclick="openNftMint()" id="nftMintBtn">
             <i class="fas fa-link"></i> Issue NFT Certificate
           </button>
-          <div style="margin-top: 8px;">
-            <a href="{% url 'nft_verify' %}" style="color: #0f62fe; font-size: 0.85rem; text-decoration: none;">
-              <i class="fas fa-shield-alt"></i> Verify a Certificate →
-            </a>
-          </div>
         </div>
       </div>
 
@@ -818,7 +813,7 @@
     .then(data => {
       const button = document.querySelector('.certificate-button');
       if (data.status) {
-        button.textContent = 'Download Certificate';
+        button.textContent = 'Request Certificate';
         button.onclick = () => window.open(data.data.certificate_url, '_blank');
       } else {
         button.textContent = 'Request Certificate';
