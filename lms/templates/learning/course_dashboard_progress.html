@@ -849,7 +849,7 @@
     .then(res => res.json())
     .then(data => {
       if (data.status) {
-        button.textContent = 'Download Certificate';
+        button.textContent = 'Request Sent';
         button.onclick = () => window.open(data.data.certificate_url, '_blank');
       } else {
         button.textContent = 'Request Certificate';
