@@ -4,6 +4,29 @@ All notable changes to this project are documented in this file.
 
 ---
 
+## [1.2.0] — 2026-04-25
+
+### 📧 Certificate Request Flow
+
+**Changed**
+- "Request Certificate" button now only sends an email — no download/redirect
+- Button shows "Request Sent ✓" (green) after successful request
+- Certificate email links to `https://certichain-smoky.vercel.app/` (NFT issuance platform)
+- Users receive the Vercel app link via email to claim their blockchain certificate
+
+### 📚 New Course: Web Development Bootcamp
+
+**Added**
+- **Course 3: Web Development Bootcamp** (4 modules, 9 lessons, 13 quiz questions)
+  - HTML Fundamentals (3 lessons, 3 quiz questions, YouTube videos)
+  - CSS Styling (3 lessons, 3 quiz questions, YouTube videos)
+  - JavaScript Essentials (3 lessons, 2 quiz questions, YouTube videos)
+  - Final Examination — 5 min, 5 comprehensive questions + all module questions
+- YouTube video embeds in every lesson using the `video_url` field
+- 9 embedded YouTube tutorials covering HTML, CSS, and JavaScript
+
+---
+
 ## [1.1.0] — 2026-04-25
 
 ### 📝 Quiz & Examination System

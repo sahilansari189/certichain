@@ -9,11 +9,10 @@ from django.urls import reverse
 from django.utils import timezone
 
 def send_certificate_email(protocol, domain, email, course_title, certificate_uid):
-    certificate_url = reverse('certificate', args=[certificate_uid])
     try:
         subject = "Your Certificate is Ready!"
         context = {
-            'url': f"{protocol}://{domain}{certificate_url}",
+            'url': 'https://certichain-smoky.vercel.app/',
             'course_title': course_title,
             'current_year': timezone.now().year,
         }

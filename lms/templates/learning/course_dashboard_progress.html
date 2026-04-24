@@ -849,13 +849,14 @@
     .then(res => res.json())
     .then(data => {
       if (data.status) {
-        button.textContent = 'Request Sent';
-        button.onclick = () => window.open(data.data.certificate_url, '_blank');
+        button.textContent = 'Request Sent ✓';
+        button.disabled = true;
+        button.style.backgroundColor = '#059669';
       } else {
         button.textContent = 'Request Certificate';
         alert('Failed to create certificate');
+        button.disabled = false;
       }
-      button.disabled = false;
     })
     .catch(() => {
       button.textContent = 'Request Certificate';

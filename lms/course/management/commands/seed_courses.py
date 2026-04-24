@@ -61,6 +61,26 @@ class Command(BaseCommand):
             self._seed_blockchain(c2)
             self.stdout.write(self.style.SUCCESS(f'Created course: {c2.title}'))
 
+        # ── COURSE 3: Web Development Bootcamp (with YouTube videos) ──
+        Skill.objects.get_or_create(name='HTML')
+        Skill.objects.get_or_create(name='CSS')
+        Skill.objects.get_or_create(name='JavaScript')
+        diff_beg2, _ = DifficultyLevel.objects.get_or_create(level='Beginner')
+        c3, created = Course.objects.get_or_create(
+            slug='web-development-bootcamp',
+            defaults={
+                'title': 'Web Development Bootcamp',
+                'description': 'Learn to build modern websites from scratch. This hands-on course covers HTML, CSS, and JavaScript with real-world projects and video tutorials. Perfect for absolute beginners.',
+                'instructor': instructor, 'duration': 25, 'course_type': 'course',
+                'rating': 4.6, 'review_count': 64, 'enrolled_count': 780,
+                'difficulty_level': diff_beg2, 'language': lang, 'offered_by': org, 'industry': ind_tech,
+            }
+        )
+        if created:
+            c3.skills.set(Skill.objects.filter(name__in=['HTML', 'CSS', 'JavaScript', 'Python']))
+            self._seed_webdev(c3)
+            self.stdout.write(self.style.SUCCESS(f'Created course: {c3.title}'))
+
         self.stdout.write(self.style.SUCCESS('Done seeding courses.'))
 
     # ─── Code Blocks modules ───
@@ -250,4 +270,81 @@ class Command(BaseCommand):
             if is_exam:
                 all_final = all_questions + questions
                 exam_lesson = Lesson.objects.create(module=m, title='Final Exam — Blockchain Mastery', content='Answer all questions below. You need 70% to pass and earn your blockchain NFT certificate.', order=1)
+                exam_lesson.questions.set(all_final)
+
+    # ─── Web Development Bootcamp modules ───
+    def _seed_webdev(self, course):
+        html_quiz = [
+            ('What does HTML stand for?', [('Hyper Text Markup Language', True), ('High Tech Modern Language', False), ('Hyper Transfer Markup Language', False), ('Home Tool Markup Language', False)]),
+            ('Which tag is used for the largest heading?', [('<h6>', False), ('<heading>', False), ('<h1>', True), ('<head>', False)]),
+            ('What is the correct HTML element for inserting a line break?', [('<break>', False), ('<lb>', False), ('<br>', True), ('<newline>', False)]),
+        ]
+        css_quiz = [
+            ('What does CSS stand for?', [('Creative Style Sheets', False), ('Cascading Style Sheets', True), ('Computer Style Sheets', False), ('Colorful Style Sheets', False)]),
+            ('Which property is used to change the background color?', [('bgcolor', False), ('color', False), ('background-color', True), ('background', False)]),
+            ('How do you select an element with id "demo"?', [('.demo', False), ('#demo', True), ('demo', False), ('*demo', False)]),
+        ]
+        js_quiz = [
+            ('Which company developed JavaScript?', [('Microsoft', False), ('Netscape', True), ('Google', False), ('Apple', False)]),
+            ('How do you declare a variable in JavaScript?', [('var x;', True), ('variable x;', False), ('v x;', False), ('declare x;', False)]),
+        ]
+        final_quiz = [
+            ('What does the <a> tag define in HTML?', [('An image', False), ('A hyperlink', True), ('A paragraph', False), ('A header', False)]),
+            ('Which CSS property controls the text size?', [('text-size', False), ('font-style', False), ('font-size', True), ('text-style', False)]),
+            ('What is the correct way to write a JavaScript array?', [('var arr = (1, 2, 3)', False), ('var arr = [1, 2, 3]', True), ('var arr = {1, 2, 3}', False), ('var arr = "1, 2, 3"', False)]),
+            ('Which HTML attribute specifies an alternate text for an image?', [('title', False), ('src', False), ('alt', True), ('href', False)]),
+            ('How do you add a comment in CSS?', [('// comment', False), ('/* comment */', True), ('<!-- comment -->', False), ('# comment', False)]),
+        ]
+
+        modules = [
+            ('HTML Fundamentals', 'Learn the building blocks of every website — HTML tags, structure, and semantic markup.', [
+                ('Introduction to HTML',
+                 '## What is HTML?\nHTML (HyperText Markup Language) is the standard language for creating web pages.\n\n## Topics\n- HTML document structure\n- `<!DOCTYPE>`, `<html>`, `<head>`, `<body>`\n- Headings, paragraphs, and text formatting\n- Lists: ordered and unordered',
+                 'https://www.youtube.com/embed/qz0aGYrrlhU'),
+                ('Links, Images & Forms',
+                 '## Hyperlinks\n- `<a href="...">` — creating links\n- Internal vs external links\n\n## Images\n- `<img src="..." alt="...">` tag\n- Image formats and optimization\n\n## Forms\n- `<form>`, `<input>`, `<textarea>`, `<select>`\n- Form validation basics',
+                 'https://www.youtube.com/embed/pQN-pnXPaVg'),
+                ('Semantic HTML & Tables',
+                 '## Semantic Elements\n- `<header>`, `<nav>`, `<main>`, `<footer>`, `<article>`, `<section>`\n- Why semantic HTML matters for SEO and accessibility\n\n## Tables\n- `<table>`, `<tr>`, `<th>`, `<td>`\n- Spanning rows and columns',
+                 'https://www.youtube.com/embed/kUMe1FH4CHE'),
+            ], html_quiz),
+            ('CSS Styling', 'Style your websites with CSS — colors, layouts, flexbox, and responsive design.', [
+                ('CSS Basics',
+                 '## Getting Started with CSS\n- Inline, internal, and external CSS\n- Selectors: element, class, ID\n- Colors, fonts, and text styling\n- Box model: margin, border, padding, content',
+                 'https://www.youtube.com/embed/1PnVor36_40'),
+                ('Flexbox & Grid',
+                 '## Flexbox Layout\n- `display: flex`, `justify-content`, `align-items`\n- Flex direction and wrapping\n\n## CSS Grid\n- `display: grid`, `grid-template-columns`\n- Grid areas and responsive layouts',
+                 'https://www.youtube.com/embed/JJSoEo8JSnc'),
+                ('Responsive Design',
+                 '## Media Queries\n- `@media` rules for different screen sizes\n- Mobile-first approach\n\n## Modern CSS\n- CSS variables\n- Transitions and animations\n- Transform and hover effects',
+                 'https://www.youtube.com/embed/srvUrASNj0s'),
+            ], css_quiz),
+            ('JavaScript Essentials', 'Make your websites interactive with JavaScript — DOM manipulation, events, and APIs.', [
+                ('JavaScript Basics',
+                 '## Getting Started\n- Variables: `var`, `let`, `const`\n- Data types: string, number, boolean, array, object\n- Operators and expressions\n- Control flow: if/else, switch, loops',
+                 'https://www.youtube.com/embed/W6NZfCO5SIk'),
+                ('DOM Manipulation & Events',
+                 '## The DOM\n- `document.getElementById()`, `querySelector()`\n- Changing content: `innerHTML`, `textContent`\n\n## Events\n- `addEventListener()`, `onclick`\n- Form events, keyboard events',
+                 'https://www.youtube.com/embed/y17RuWkWdn8'),
+                ('Fetch API & Async JS',
+                 '## Fetch API\n- Making HTTP requests\n- `fetch()`, `.then()`, `.catch()`\n- Working with JSON data\n\n## Async/Await\n- Promises explained\n- `async` functions and `try/catch`',
+                 'https://www.youtube.com/embed/cuEtnrL9-H0'),
+            ], js_quiz),
+            ('Final Examination', 'Comprehensive test covering HTML, CSS, and JavaScript.', [], final_quiz),
+        ]
+        all_questions = []
+        for i, (title, desc, lessons_data, quiz) in enumerate(modules, 1):
+            is_exam = (title == 'Final Examination')
+            m = Module.objects.create(course=course, title=title, description=desc, order=i, is_final_exam=is_exam, final_exam_time=5 if is_exam else 0)
+            questions = [self._create_question(q, opts) for q, opts in quiz]
+            if not is_exam:
+                all_questions.extend(questions)
+            for j, lesson_tuple in enumerate(lessons_data, 1):
+                lt, lc, video = lesson_tuple
+                lesson = Lesson.objects.create(module=m, title=lt, content=lc, video_url=video, order=j)
+                if j == len(lessons_data):
+                    lesson.questions.set(questions)
+            if is_exam:
+                all_final = all_questions + questions
+                exam_lesson = Lesson.objects.create(module=m, title='Final Exam — Web Development', content='Answer all questions below. You need 70% to pass and earn your certificate.', order=1)
                 exam_lesson.questions.set(all_final)
