@@ -1,7 +1,5 @@
-import qrcode
 import base64
 from io import BytesIO
-from PIL import Image, ImageDraw
 
 def generate_certificate_linkedin_url(certi,certificate_url):
     base_url = f"https://www.linkedin.com/profile/add?startTask=Course Completion"
@@ -23,6 +21,7 @@ def generate_certificate_linkedin_url(certi,certificate_url):
 
 
 def generate_qr_code_base64(data):
+    import qrcode
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -42,6 +41,8 @@ def generate_qr_code_base64(data):
     return img_base64
 
 def generate_qr_code_base64_with_img(data, logo_path='static/images/logo.png'):
+    import qrcode
+    from PIL import Image, ImageDraw
     qr = qrcode.QRCode(
         version=4,
         error_correction=qrcode.constants.ERROR_CORRECT_H,  # High error correction
