@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-admin.site.site_header = "SkillVerse Admin"
-admin.site.site_title = "SkillVerse Admin Portal"
-admin.site.index_title = "Welcome to SkillVerse Portal"
+admin.site.site_header = "CertiChain Admin"
+admin.site.site_title = "CertiChain Admin Portal"
+admin.site.index_title = "Welcome to CertiChain Portal"
 
 
