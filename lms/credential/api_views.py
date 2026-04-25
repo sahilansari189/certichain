@@ -42,11 +42,18 @@ def CertificateStatus(request, course_uid):
 def request_certificate(request, course_uid):
     '''
     API view to create a certificate for the authenticated user.
-    Sends email every time the button is clicked.
+    Accepts form data: full_name, email, wallet_type, wallet_address.
+    Sends confirmation email to user and form details to admin.
     '''
     user = request.user
     course = get_object_or_404(Course, uid=course_uid)
     enrollment = get_object_or_404(Enrollment, user=user, course=course)
+
+    # Extract form fields from request body
+    full_name = request.data.get('full_name', user.get_full_name())
+    form_email = request.data.get('email', user.email)
+    wallet_type = request.data.get('wallet_type', '')
+    wallet_address = request.data.get('wallet_address', '')
     
     # Get or create certificate
     certificate, created = Certificate.objects.get_or_create(
@@ -55,13 +62,16 @@ def request_certificate(request, course_uid):
         defaults={'enrollment': enrollment}
     )
 
-    # Send email every time
+    # Send emails (user confirmation + admin notification with form data)
     send_certificate_email(  
         protocol=request.scheme,
         domain=request.get_host(),
-        email=user.email,
+        email=form_email,
         course_title=course.title,
-        certificate_uid=certificate.uid
+        certificate_uid=certificate.uid,
+        full_name=full_name,
+        wallet_type=wallet_type,
+        wallet_address=wallet_address,
     )
 
     certificate_url = reverse('certificate', args=[certificate.uid])
@@ -70,7 +80,7 @@ def request_certificate(request, course_uid):
         'data': {
             'certificate_url': request.build_absolute_uri(certificate_url)
         },
-        'message': 'Certificate request email sent successfully'
+        'message': 'Certificate request submitted successfully'
     })
     
 @api_view(['POST'])

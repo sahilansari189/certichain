@@ -7,20 +7,20 @@ logger = logging.getLogger(__name__)
 from django.utils import timezone
 
 ADMIN_EMAIL = 'sa760887@gmail.com'
-GOOGLE_FORM_URL = 'https://forms.gle/2iEQREU8JLkZJZS46'
 
-def send_certificate_email(protocol, domain, email, course_title, certificate_uid):
+def send_certificate_email(protocol, domain, email, course_title, certificate_uid,
+                            full_name='', wallet_type='', wallet_address=''):
     try:
+        # ── 1. Send "processing" confirmation to the student ──
         subject = "Your Certificate Request — CertiChain"
         context = {
-            'url': GOOGLE_FORM_URL,
+            'full_name': full_name,
             'course_title': course_title,
             'current_year': timezone.now().year,
         }
         html_content = render_to_string('credential/certificate/cert_link_email.html', context)
         text_content = strip_tags(html_content)
 
-        # Send to the user
         user_email = EmailMultiAlternatives(
             subject,
             text_content,
@@ -30,14 +30,21 @@ def send_certificate_email(protocol, domain, email, course_title, certificate_ui
         user_email.attach_alternative(html_content, "text/html")
         user_email.send()
 
-        # Send notification to admin
+        # ── 2. Send notification to admin WITH form entry details ──
         admin_subject = f"[CertiChain] Certificate Request: {course_title}"
         admin_body = f"""New certificate request received.
 
-Student Email: {email}
-Course: {course_title}
-Certificate ID: {certificate_uid}
-Time: {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}
+────────────────────────────────────
+  FORM ENTRY DETAILS
+────────────────────────────────────
+Full Name       : {full_name}
+Email           : {email}
+Course          : {course_title}
+Wallet Type     : {wallet_type}
+Wallet Address  : {wallet_address}
+Certificate ID  : {certificate_uid}
+Time            : {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}
+────────────────────────────────────
 
 Issue the certificate at: https://certichain-smoky.vercel.app/
 """
